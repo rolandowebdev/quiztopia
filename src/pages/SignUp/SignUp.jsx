@@ -9,7 +9,7 @@ const SignUp = () => (
       <Input id="confirmPassword" label="confirm password" type="password" />
       <Button type="submit">sign up</Button>
     </form>
-    <FormFooter text="Already have an account?" type="sign in" />
+    <FormFooter textInfo="Already have an account?" textLink="sign in" link="/signin" />
   </FormContainer>
 );
 

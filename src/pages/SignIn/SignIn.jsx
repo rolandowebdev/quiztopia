@@ -8,7 +8,7 @@ const SignIn = () => (
       <Input id="password" label="password" type="password" forgotPassword />
       <Button type="submit">sign in</Button>
     </form>
-    <FormFooter text="Don't have an account?" type="sign up" />
+    <FormFooter textInfo="Don't have an account?" textLink="sign up" link="/signup" />
   </FormContainer>
 );
 

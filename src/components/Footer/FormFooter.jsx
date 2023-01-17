@@ -1,6 +1,11 @@
-const FormFooter = ({ text, type }) => (
+import { Link } from 'react-router-dom';
+
+const FormFooter = ({ textInfo, textLink, link }) => (
   <p>
-    {text} <span className="font-semibold capitalize cursor-pointer text-primary hover:underline">{type}</span>
+    {textInfo}{' '}
+    <Link to={link} className="font-semibold capitalize cursor-pointer text-primary hover:underline">
+      {textLink}
+    </Link>
   </p>
 );
 
