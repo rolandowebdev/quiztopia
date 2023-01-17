@@ -1,0 +1,3 @@
+# .eslintignore
+build
+node_modules

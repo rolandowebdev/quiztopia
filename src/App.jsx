@@ -1,5 +1,6 @@
-const App = () => {
-  return <h1 className='text-3xl text-blue-900 font-bold'>Quiztopia</h1>;
-};
-
+const App = () => (
+  <div>
+    <h1 className="text-3xl font-bold text-blue-900">Quiztopia</h1>
+  </div>
+);
 export default App;
