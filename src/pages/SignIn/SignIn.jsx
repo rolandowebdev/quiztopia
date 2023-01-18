@@ -5,6 +5,12 @@ import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 import { FormContainer } from '../../layouts';
 import { Input, Button, FormFooter } from '../../components';
 
+const ERROR_CODE = {
+  WRONG_PASSWORD: 'auth/wrong-password',
+  USER_NOT_FOUND: 'auth/user-not-found',
+  TOO_MANY_REQUEST: 'auth/too-many-requests'
+};
+
 const SignIn = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -30,13 +36,13 @@ const SignIn = () => {
       navigate('/', { replace: true });
     } catch (err) {
       switch (err.code) {
-        case 'auth/wrong-password':
+        case ERROR_CODE.WRONG_PASSWORD:
           clearInputAndSetError('Wrong password!');
           break;
-        case 'auth/user-not-found':
+        case ERROR_CODE.USER_NOT_FOUND:
           clearInputAndSetError('User not found!');
           break;
-        case 'auth/too-many-requests':
+        case ERROR_CODE.TOO_MANY_REQUEST:
           clearInputAndSetError('Too many login attempts. click on "Forgot Password" to reset your password.');
           break;
         default:

@@ -4,6 +4,11 @@ import { FormContainer } from '../../layouts';
 import { Input, Button, FormFooter } from '../../components';
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 
+const ERROR_CODE = {
+  EMAIL_ALREADY_IN_USE: 'auth/email-already-in-use',
+  WEAK_PASSWORD: 'auth/weak-password'
+};
+
 const SignUp = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -12,7 +17,7 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { signup, currentUser } = useAuth(); // get from UserAuth context
+  const { signup } = useAuth(); // get from UserAuth context
 
   // clear input field function
   const clearInputAndSetError = (errorMessage) => {
@@ -25,14 +30,6 @@ const SignUp = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    if (emailRef.current.value === currentUser?.email) {
-      return clearInputAndSetError('Email already in use!');
-    }
-
-    if (passwordRef.current.value.length < 6 || passwordConfirmRef.current.value.length < 6) {
-      return clearInputAndSetError('Password should be at least 6 characters!');
-    }
-
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return clearInputAndSetError('Password do not match!');
     }
@@ -40,11 +37,21 @@ const SignUp = () => {
     try {
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
-    } catch {
-      setError('Failed to create an account!');
+      clearInputAndSetError();
+    } catch (err) {
+      switch (err.code) {
+        case ERROR_CODE.EMAIL_ALREADY_IN_USE:
+          clearInputAndSetError('Email already in use!');
+          break;
+        case ERROR_CODE.WEAK_PASSWORD:
+          clearInputAndSetError('Password should be at least 6 characters!');
+          break;
+        default:
+          clearInputAndSetError('Failed to create an account!');
+          break;
+      }
     } finally {
       setLoading(false);
-      clearInputAndSetError();
     }
   };
 
