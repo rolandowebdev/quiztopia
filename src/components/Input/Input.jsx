@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Input = forwardRef(({ label, id, type, placeholder, forgotPassword }, ref) => (
   <label htmlFor={id}>
-    <span className="block mb-1 capitalize text-slate-900">{label}</span>
+    <span className="block mb-[6px] capitalize">{label}</span>
     <input
       type={type}
       id={id}
