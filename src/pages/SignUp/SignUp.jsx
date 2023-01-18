@@ -30,7 +30,7 @@ const SignUp = () => {
     }
 
     if (passwordRef.current.value.length < 6 || passwordConfirmRef.current.value.length < 6) {
-      return clearInputAndSetError('Password should have minimum 6 characters!');
+      return clearInputAndSetError('Password should be at least 6 characters!');
     }
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -44,13 +44,13 @@ const SignUp = () => {
       setError('Failed to create an account!');
     } finally {
       setLoading(false);
-      clearInputAndSetError(null);
+      clearInputAndSetError();
     }
   };
 
   return (
     <FormContainer>
-      {error && <p>{error}</p>}
+      {error && <p className="text-center">{error}</p>}
       <form onSubmit={handleSignUp} className="flex flex-col w-full gap-4">
         <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />
         <Input id="password" label="password" ref={passwordRef} type="password" />
