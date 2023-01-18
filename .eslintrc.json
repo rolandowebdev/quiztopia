@@ -21,6 +21,7 @@
     "react/button-has-type": "off",
     "import/no-extraneous-dependencies": "off",
     "react/jsx-no-constructed-context-values": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

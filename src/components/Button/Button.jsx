@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 const Button = ({ type, children, ...rest }) => (
   <button
     type={type}
