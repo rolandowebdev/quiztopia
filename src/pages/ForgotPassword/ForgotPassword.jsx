@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 import { Button, Input, FormFooter } from '../../components';
-import { FormContainer } from '../../layouts';
+import { SectionContainer } from '../../layouts';
 
 const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <FormContainer>
+    <SectionContainer>
       {message && <p className="text-center">{message}</p>}
       {error && <p className="text-center">{error}</p>}
       <form onSubmit={handleForgotPassword} className="flex flex-col w-full gap-4">
@@ -38,7 +38,7 @@ const ForgotPassword = () => {
         <Button type="submit">{loading ? 'loading...' : 'reset password'}</Button>
       </form>
       <FormFooter textInfo="Back to" textLink="sign in" link="/signin" />
-    </FormContainer>
+    </SectionContainer>
   );
 };
 

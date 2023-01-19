@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
-import { FormContainer } from '../../layouts';
+import { SectionContainer } from '../../layouts';
 import { Input, Button, FormFooter } from '../../components';
 
 const ERROR_CODE = {
@@ -55,7 +55,7 @@ const SignIn = () => {
   };
 
   return (
-    <FormContainer>
+    <SectionContainer>
       {error && <p className="text-center">{error}</p>}
       <form onSubmit={handleSignIn} className="flex flex-col w-full gap-4">
         <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />
@@ -63,7 +63,7 @@ const SignIn = () => {
         <Button type="submit">{loading ? 'loading...' : 'sign in'}</Button>
       </form>
       <FormFooter textInfo="Don't have an account?" textLink="sign up" link="/signup" />
-    </FormContainer>
+    </SectionContainer>
   );
 };
 

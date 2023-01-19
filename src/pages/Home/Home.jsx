@@ -5,7 +5,7 @@ import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 import useAxios from '../../hooks/useAxios';
 
 import { Button, Select, Input } from '../../components';
-import { FormContainer } from '../../layouts';
+import { SectionContainer } from '../../layouts';
 import { difficultyOptions, questionTypeOptions } from '../../utils/menu';
 
 const Home = () => {
@@ -33,7 +33,7 @@ const Home = () => {
   if (error) return <p>Some went wrong!</p>;
 
   return (
-    <FormContainer>
+    <SectionContainer>
       <p className="text-lg text-center">
         Select menu below for playing <span className="font-semibold text-primary">QuizTopia</span>
       </p>
@@ -48,7 +48,7 @@ const Home = () => {
       <Button type="button" onClick={handleSignOut}>
         Logout
       </Button>
-    </FormContainer>
+    </SectionContainer>
   );
 };
 

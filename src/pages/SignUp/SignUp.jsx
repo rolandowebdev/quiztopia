@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-import { FormContainer } from '../../layouts';
+import { SectionContainer } from '../../layouts';
 import { Input, Button, FormFooter } from '../../components';
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 
@@ -56,7 +56,7 @@ const SignUp = () => {
   };
 
   return (
-    <FormContainer>
+    <SectionContainer>
       {error && <p className="text-center">{error}</p>}
       <form onSubmit={handleSignUp} className="flex flex-col w-full gap-4">
         <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />
@@ -65,7 +65,7 @@ const SignUp = () => {
         <Button type="submit">{loading ? 'loading...' : 'sign up'}</Button>
       </form>
       <FormFooter textInfo="Already have an account?" textLink="sign in" link="/signin" />
-    </FormContainer>
+    </SectionContainer>
   );
 };
 
