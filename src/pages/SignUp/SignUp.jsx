@@ -56,7 +56,7 @@ const SignUp = () => {
   };
 
   return (
-    <SectionContainer>
+    <SectionContainer title>
       {error && <p className="text-center">{error}</p>}
       <form onSubmit={handleSignUp} className="flex flex-col w-full gap-4">
         <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />

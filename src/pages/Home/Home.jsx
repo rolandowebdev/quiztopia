@@ -33,7 +33,7 @@ const Home = () => {
   if (error) return <p>Some went wrong!</p>;
 
   return (
-    <SectionContainer>
+    <SectionContainer title>
       <p className="text-lg text-center">
         Select menu below for playing <span className="font-semibold text-primary">QuizTopia</span>
       </p>

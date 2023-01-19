@@ -30,7 +30,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <SectionContainer>
+    <SectionContainer title>
       {message && <p className="text-center">{message}</p>}
       {error && <p className="text-center">{error}</p>}
       <form onSubmit={handleForgotPassword} className="flex flex-col w-full gap-4">

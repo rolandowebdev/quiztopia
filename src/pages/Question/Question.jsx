@@ -2,7 +2,7 @@ import { Button } from '../../components';
 import { SectionContainer } from '../../layouts';
 
 const Question = () => (
-  <SectionContainer>
+  <SectionContainer title>
     <h2 className="text-3xl">Question 1</h2>
     <p className="my-3 text-lg">This is the question</p>
     <div className="flex flex-col justify-center w-full gap-4">
