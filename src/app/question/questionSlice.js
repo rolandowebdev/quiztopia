@@ -4,7 +4,7 @@ const initialState = {
   questionCategory: '',
   questionDifficulty: '',
   questionType: '',
-  amountOfQuestion: 10,
+  amountOfQuestion: 0,
   score: 0
 };
 

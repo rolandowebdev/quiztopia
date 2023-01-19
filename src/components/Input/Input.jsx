@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 
-const Input = forwardRef(({ label, id, type, placeholder, forgotPassword }, ref) => (
+const Input = forwardRef(({ label, id, type, placeholder, forgotPassword, ...rest }, ref) => (
   <label htmlFor={id}>
     <span className="block mb-[6px] capitalize">{label}</span>
     <input
@@ -11,6 +11,7 @@ const Input = forwardRef(({ label, id, type, placeholder, forgotPassword }, ref)
       placeholder={placeholder}
       className="block w-full p-3 bg-transparent outline-none ring-1 ring-gray-400 rounded-xl text-primary focus:ring-primary"
       required
+      {...rest}
     />
     {forgotPassword && (
       <Link

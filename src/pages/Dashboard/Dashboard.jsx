@@ -59,7 +59,7 @@ const Dashboard = () => {
         <Select id="category" options={response?.trivia_categories} label="category" ref={categoryRef} />
         <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
         <Select id="questionType" options={questionTypeOptions} label="question type" ref={questionTypeRef} />
-        <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} />
+        <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={20} />
         <Button type="submit">Get Started</Button>
       </form>
       {errorSignOut && <p className="text-center">{errorSignOut}</p>}
