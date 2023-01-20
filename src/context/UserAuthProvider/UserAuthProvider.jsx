@@ -5,7 +5,7 @@ import {
   signOut,
   sendPasswordResetEmail
 } from 'firebase/auth';
-import { auth } from '../../libs/firebase';
+import { auth } from '../../libs/firebaseConfig';
 
 const AuthContext = createContext();
 

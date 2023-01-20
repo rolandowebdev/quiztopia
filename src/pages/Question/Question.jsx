@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unsafe-optional-chaining */
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +11,7 @@ import { generateRandom } from '../../libs/generateRandom';
 import { generateApiUrl } from '../../libs/generateApiUrl';
 
 import useAxios from '../../hooks/useAxios';
-import { setScore } from '../../app/question/questionSlice';
+import { setCorrectAnswer } from '../../app/question/questionSlice';
 
 const Question = () => {
   const navigate = useNavigate();
@@ -19,13 +20,14 @@ const Question = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [options, setOptions] = useState([]);
 
-  const { questionCategory, questionDifficulty, questionType, amountOfQuestion, score } = useSelector(
+  const { questionCategory, questionDifficulty, questionType, amountOfQuestion, correctAnswer } = useSelector(
     (state) => state.question
   );
 
   // generate api
   const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty, questionType);
   const { response, loading, error } = useAxios({ url: apiUrl });
+  console.log(apiUrl);
 
   useEffect(() => {
     if (response?.results.length) {
@@ -33,6 +35,7 @@ const Question = () => {
       const answers = [...question.incorrect_answers];
       // make correct answer random position
       answers.splice(generateRandom(question.incorrect_answers.length), 0, question.correct_answer);
+      console.log(answers);
       setOptions(answers);
     }
   }, [response, questionIndex]);
@@ -40,9 +43,16 @@ const Question = () => {
   // handle when user choose answer
   const handleAnswer = (e) => {
     const question = response.results[questionIndex];
+    // const correctAnswers = [...question.incorrect_answers];
+
+    // correctAnswers.map((correctAnswer) => {
+    //   if (e.target.textContent === correctAnswer) {
+    //     dispatch(setIncorrectAnswer(incorrectAnswer + 1));
+    //   }
+    // });
 
     if (e.target.textContent === question.correct_answer) {
-      dispatch(setScore(score + 1));
+      dispatch(setCorrectAnswer(correctAnswer + 1));
     }
 
     if (questionIndex + 1 < response.results.length) {
@@ -67,7 +77,7 @@ const Question = () => {
         ))}
       </div>
       <p>
-        Your Score : {score} / {response?.results.length}
+        Correct Answer : {correctAnswer} / {response?.results.length}
       </p>
       <Timer time={response?.results.length * 30} />
     </SectionContainer>

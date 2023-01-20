@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -21,7 +21,6 @@ const Dashboard = () => {
   const difficultyRef = useRef(null);
   const questionTypeRef = useRef(null);
   const amountQuestionRef = useRef(null);
-  const [errorSignOut, setErrorSignOut] = useState('');
 
   const { signout } = useAuth();
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ const Dashboard = () => {
       await signout();
       navigate('/signin', { replace: true });
     } catch {
-      setErrorSignOut('Failed to sign out!');
+      console.log('Failed to sign out!');
     }
   };
 
@@ -44,7 +43,7 @@ const Dashboard = () => {
     dispatch(setQuestionDifficulty(difficultyRef.current.value));
     dispatch(setQuestionType(questionTypeRef.current.value));
     dispatch(setAmountOfQuestion(amountQuestionRef.current.value));
-    navigate('/questions', { replace: true });
+    navigate('/question', { replace: true });
   };
 
   if (loading) return <p>Loading...</p>;
@@ -62,7 +61,6 @@ const Dashboard = () => {
         <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={20} />
         <Button type="submit">Get Started</Button>
       </form>
-      {errorSignOut && <p className="text-center">{errorSignOut}</p>}
       <Button type="button" onClick={handleSignOut}>
         Logout
       </Button>
