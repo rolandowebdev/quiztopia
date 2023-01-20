@@ -39,9 +39,21 @@ const Dashboard = () => {
 
   const handleQuestion = (e) => {
     e.preventDefault();
-    dispatch(setQuestionCategory(categoryRef.current.value));
-    dispatch(setQuestionDifficulty(difficultyRef.current.value));
-    dispatch(setQuestionType(questionTypeRef.current.value));
+
+    if (categoryRef.current.value !== 'select category') {
+      if (categoryRef.current.value > 18) dispatch(setQuestionCategory(18));
+      else dispatch(setQuestionCategory(categoryRef.current.value));
+    }
+
+    if (difficultyRef.current.value !== 'select difficulty') {
+      if (questionTypeRef.current.value === 'boolean') dispatch(setQuestionDifficulty('medium'));
+      else dispatch(setQuestionDifficulty(difficultyRef.current.value));
+    }
+
+    if (questionTypeRef.current.value !== 'select type') {
+      dispatch(setQuestionType(questionTypeRef.current.value));
+    }
+
     dispatch(setAmountOfQuestion(amountQuestionRef.current.value));
     navigate('/question', { replace: true });
   };
@@ -55,10 +67,31 @@ const Dashboard = () => {
         Select menu below for playing <span className="font-semibold text-primary">QuizTopia</span>
       </p>
       <form onSubmit={handleQuestion} className="flex flex-col w-full gap-4">
-        <Select id="category" options={response?.trivia_categories} label="category" ref={categoryRef} />
-        <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
-        <Select id="questionType" options={questionTypeOptions} label="question type" ref={questionTypeRef} />
-        <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={20} />
+        <Select
+          id="category"
+          options={response?.trivia_categories}
+          label="category"
+          ref={categoryRef}
+        />
+        <Select
+          id="difficulty"
+          options={difficultyOptions}
+          label="difficulty"
+          ref={difficultyRef}
+        />
+        <Select
+          id="questionType"
+          options={questionTypeOptions}
+          label="type"
+          ref={questionTypeRef}
+        />
+        <Input
+          id="amount"
+          label="amount of question"
+          type="number"
+          ref={amountQuestionRef}
+          max={18}
+        />
         <Button type="submit">Get Started</Button>
       </form>
       <Button type="button" onClick={handleSignOut}>

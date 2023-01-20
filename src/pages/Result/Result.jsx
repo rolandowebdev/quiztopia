@@ -9,7 +9,9 @@ import Score from './Score';
 const Result = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector((state) => state.question);
+  const { amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector(
+    (state) => state.question
+  );
 
   const handleBackToDashboard = () => {
     dispatch(setCorrectAnswer(0));
@@ -21,7 +23,11 @@ const Result = () => {
     <SectionContainer>
       <div className="flex flex-col items-center gap-6">
         <h2 className="text-3xl font-bold">Your Final Result🎉</h2>
-        <Score amountOfQuestion={amountOfQuestion} correctAnswer={correctAnswer} incorrectAnswer={incorrectAnswer} />
+        <Score
+          amountOfQuestion={amountOfQuestion}
+          correctAnswer={correctAnswer}
+          incorrectAnswer={incorrectAnswer}
+        />
       </div>
       <Button onClick={handleBackToDashboard} type="button">
         Back to Dashboard
