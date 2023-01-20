@@ -1,11 +1,13 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { decode } from 'html-entities';
 
-import { Button } from '../../components';
+import { Button, Timer } from '../../components';
 import { SectionContainer } from '../../layouts';
 import { generateRandom } from '../../libs/generateRandom';
+import { generateApiUrl } from '../../libs/generateApiUrl';
 
 import useAxios from '../../hooks/useAxios';
 import { setScore } from '../../app/question/questionSlice';
@@ -22,11 +24,7 @@ const Question = () => {
   );
 
   // generate api
-  let apiUrl = `/api.php?amount=${amountOfQuestion}`;
-  if (questionCategory) apiUrl = apiUrl.concat(`&category=${questionCategory}`);
-  if (questionDifficulty) apiUrl = apiUrl.concat(`&difficulty=${questionDifficulty}`);
-  if (questionType) apiUrl = apiUrl.concat(`&type=${questionType}`);
-
+  const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty, questionType);
   const { response, loading, error } = useAxios({ url: apiUrl });
 
   useEffect(() => {
@@ -39,6 +37,7 @@ const Question = () => {
     }
   }, [response, questionIndex]);
 
+  // handle when user choose answer
   const handleAnswer = (e) => {
     const question = response.results[questionIndex];
 
@@ -70,6 +69,7 @@ const Question = () => {
       <p>
         Your Score : {score} / {response?.results.length}
       </p>
+      <Timer time={response?.results.length * 30} />
     </SectionContainer>
   );
 };
