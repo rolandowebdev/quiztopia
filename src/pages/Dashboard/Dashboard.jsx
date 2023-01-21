@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -40,8 +40,10 @@ const Dashboard = () => {
   const handleQuestion = (e) => {
     e.preventDefault();
 
+    // delete category < 9 and > 18
     if (categoryRef.current.value !== 'select category') {
       if (categoryRef.current.value > 18) dispatch(setQuestionCategory(18));
+      else if (categoryRef.current.value > 9) dispatch(setQuestionCategory(9));
       else dispatch(setQuestionCategory(categoryRef.current.value));
     }
 
@@ -67,32 +69,18 @@ const Dashboard = () => {
         Select menu below for playing <span className="font-semibold text-primary">QuizTopia</span>
       </p>
       <form onSubmit={handleQuestion} className="flex flex-col w-full gap-4">
-        <Select
-          id="category"
-          options={response?.trivia_categories}
-          label="category"
-          ref={categoryRef}
-        />
-        <Select
-          id="difficulty"
-          options={difficultyOptions}
-          label="difficulty"
-          ref={difficultyRef}
-        />
-        <Select
-          id="questionType"
-          options={questionTypeOptions}
-          label="type"
-          ref={questionTypeRef}
-        />
-        <Input
-          id="amount"
-          label="amount of question"
-          type="number"
-          ref={amountQuestionRef}
-          max={18}
-        />
-        <Button type="submit">Get Started</Button>
+        <Select id="category" options={response?.trivia_categories} label="category" ref={categoryRef} />
+        <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
+        <Select id="questionType" options={questionTypeOptions} label="type" ref={questionTypeRef} />
+        <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={18} min={1} />
+        <div className="flex items-center gap-2">
+          <Button type="submit">Get Started</Button>
+          {localStorage.length > 0 && (
+            <Button type="button">
+              <Link to="resume-question">Resume</Link>
+            </Button>
+          )}
+        </div>
       </form>
       <Button type="button" onClick={handleSignOut}>
         Logout

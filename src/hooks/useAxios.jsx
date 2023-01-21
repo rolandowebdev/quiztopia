@@ -5,12 +5,11 @@ axios.defaults.baseURL = process.env.REACT_APP_BASE_URL; // base url
 
 const useAxios = ({ url }) => {
   const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = () => {
-      setLoading(true);
       axios
         .get(url)
         .then((res) => setResponse(res.data))

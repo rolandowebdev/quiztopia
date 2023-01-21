@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questionSlice';
 import { SectionContainer } from '../../layouts';
@@ -9,14 +9,16 @@ import Score from './Score';
 const Result = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector(
-    (state) => state.question
-  );
+
+  const storeQuestionIndex = JSON.parse(localStorage.getItem('questionIndex'));
+  const storeCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'));
+  const storeIncorrectAnswer = JSON.parse(localStorage.getItem('incorrectAnswer'));
 
   const handleBackToDashboard = () => {
+    localStorage.clear();
     dispatch(setCorrectAnswer(0));
     dispatch(setIncorrectAnswer(0));
-    navigate('/');
+    navigate('/', { replace: true });
   };
 
   return (
@@ -24,9 +26,9 @@ const Result = () => {
       <div className="flex flex-col items-center gap-6">
         <h2 className="text-3xl font-bold">Your Final Result🎉</h2>
         <Score
-          amountOfQuestion={amountOfQuestion}
-          correctAnswer={correctAnswer}
-          incorrectAnswer={incorrectAnswer}
+          amountOfQuestion={storeQuestionIndex}
+          correctAnswer={storeCorrectAnswer}
+          incorrectAnswer={storeIncorrectAnswer}
         />
       </div>
       <Button onClick={handleBackToDashboard} type="button">
