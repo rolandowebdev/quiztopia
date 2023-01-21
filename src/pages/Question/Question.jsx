@@ -9,7 +9,7 @@ import { generateRandom } from '../../libs/generateRandom';
 import { generateApiUrl } from '../../libs/generateApiUrl';
 
 import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questionSlice';
-import useAxios from '../../hooks/useAxios';
+import { useAxios } from '../../hooks';
 
 const Question = () => {
   const navigate = useNavigate();
@@ -18,8 +18,14 @@ const Question = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [options, setOptions] = useState([]);
 
-  const { questionCategory, questionDifficulty, questionType, amountOfQuestion, correctAnswer, incorrectAnswer } =
-    useSelector((state) => state.question);
+  const {
+    questionCategory,
+    questionDifficulty,
+    questionType,
+    amountOfQuestion,
+    correctAnswer,
+    incorrectAnswer
+  } = useSelector((state) => state.question);
 
   // generate api
   const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty, questionType);
@@ -54,20 +60,20 @@ const Question = () => {
   const handleAnswer = (e) => {
     const question = results[questionIndex];
 
-    if (e.target.textContent === question?.correct_answer) {
-      dispatch(setCorrectAnswer(correctAnswer + 1));
-    }
-
-    if (e.target.textContent === question?.incorrect_answers) {
-      dispatch(setIncorrectAnswer(incorrectAnswer + 1));
-    }
-
     if (question && question.incorrect_answers) {
       if (typeof question.incorrect_answers === 'object') {
         question.incorrect_answers.map(
           (data) => e.target.textContent === data && dispatch(setIncorrectAnswer(incorrectAnswer + 1))
         );
       }
+    }
+
+    if (e.target.textContent === question?.correct_answer) {
+      dispatch(setCorrectAnswer(correctAnswer + 1));
+    }
+
+    if (e.target.textContent === question?.incorrect_answers) {
+      dispatch(setIncorrectAnswer(incorrectAnswer + 1));
     }
 
     if (questionIndex + 1 < results?.length) {
@@ -92,7 +98,8 @@ const Question = () => {
         ))}
       </div>
       <p className="text-xl">
-        Correct Answer : <span className="font-bold text-primary">{correctAnswer}</span> / {results?.length}
+        Correct Answer : <span className="font-bold text-primary">{correctAnswer}</span> /{' '}
+        {results?.length}
       </p>
       <Timer time={results.length * 30} />
     </SectionContainer>

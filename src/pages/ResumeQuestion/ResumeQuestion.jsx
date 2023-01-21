@@ -42,21 +42,22 @@ const ResumeQuestion = () => {
   const handleAnswer = (e) => {
     const question = storeQuestions[questionIndex];
 
+    if (question && question.incorrect_answers) {
+      if (typeof question.incorrect_answers === 'object') {
+        question.incorrect_answers.map(
+          (data) =>
+            e.target.textContent === data &&
+            setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
+        );
+      }
+    }
+
     if (e.target.textContent === question?.correct_answer) {
       setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1);
     }
 
     if (e.target.textContent === question?.incorrect_answers) {
       setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1);
-    }
-
-    if (question && question.incorrect_answers) {
-      if (typeof question.incorrect_answers === 'object') {
-        question.incorrect_answers.map(
-          (data) =>
-            e.target.textContent === data && setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
-        );
-      }
     }
 
     if (questionIndex + 1 < storeQuestions.length) {

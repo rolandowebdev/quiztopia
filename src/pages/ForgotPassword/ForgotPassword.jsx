@@ -34,7 +34,13 @@ const ForgotPassword = () => {
       {message && <p className="my-1 text-lg font-bold text-center text-green-500">{error}</p>}
       {error && <p className="my-1 text-lg font-bold text-center text-red-500">{error}</p>}
       <form onSubmit={handleForgotPassword} className="flex flex-col w-full gap-4">
-        <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />
+        <Input
+          id="email"
+          label="email"
+          ref={emailRef}
+          type="email"
+          placeholder="Type your email here..."
+        />
         <Button type="submit">{loading ? <Loader height={18} width={18} /> : 'reset password'}</Button>
       </form>
       <FormFooter textInfo="Back to" textLink="sign in" link="/signin" />

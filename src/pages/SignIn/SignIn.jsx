@@ -43,7 +43,9 @@ const SignIn = () => {
           clearInputAndSetError('User not found!');
           break;
         case ERROR_CODE.TOO_MANY_REQUEST:
-          clearInputAndSetError('Too many login attempts. click on "Forgot Password" to reset your password.');
+          clearInputAndSetError(
+            'Too many login attempts. click on "Forgot Password" to reset your password.'
+          );
           break;
         default:
           clearInputAndSetError('Failed to sign in!');
@@ -58,7 +60,13 @@ const SignIn = () => {
     <SectionContainer title>
       {error && <p className="my-1 text-lg font-bold text-center text-red-500">{error}</p>}
       <form onSubmit={handleSignIn} className="flex flex-col w-full gap-4">
-        <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />
+        <Input
+          id="email"
+          label="email"
+          ref={emailRef}
+          type="email"
+          placeholder="Type your email here..."
+        />
         <Input id="password" label="password" ref={passwordRef} type="password" forgotPassword />
         <Button type="submit">{loading ? <Loader height={18} width={18} /> : 'sign in'}</Button>
       </form>

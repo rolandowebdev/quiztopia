@@ -10,7 +10,7 @@ import {
 } from '../../app/question/questionSlice';
 
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
-import useAxios from '../../hooks/useAxios';
+import { useAxios } from '../../hooks';
 
 import { Button, Select, Input, Loader } from '../../components';
 import { SectionContainer } from '../../layouts';
@@ -40,11 +40,8 @@ const Dashboard = () => {
   const handleQuestion = (e) => {
     e.preventDefault();
 
-    // delete category < 9 and > 18
     if (categoryRef.current.value !== 'select category') {
-      if (categoryRef.current.value > 18) dispatch(setQuestionCategory(18));
-      else if (categoryRef.current.value > 9) dispatch(setQuestionCategory(9));
-      else dispatch(setQuestionCategory(categoryRef.current.value));
+      dispatch(setQuestionCategory(categoryRef.current.value));
     }
 
     if (difficultyRef.current.value !== 'select difficulty') {

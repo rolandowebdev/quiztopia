@@ -1,7 +1,7 @@
 {
   "semi": true,
   "tabWidth": 2,
-  "printWidth": 120,
+  "printWidth": 105,
   "singleQuote": true,
   "trailingComma": "none",
   "bracketSameLine": true,

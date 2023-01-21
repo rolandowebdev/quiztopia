@@ -62,7 +62,13 @@ const SignUp = () => {
       {message && <p className="my-1 text-lg font-bold text-center text-green-500">{message}</p>}
       {error && <p className="my-1 text-lg font-bold text-center text-red-500">{error}</p>}
       <form onSubmit={handleSignUp} className="flex flex-col w-full gap-4">
-        <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />
+        <Input
+          id="email"
+          label="email"
+          ref={emailRef}
+          type="email"
+          placeholder="Type your email here..."
+        />
         <Input id="password" label="password" ref={passwordRef} type="password" />
         <Input id="confirmPassword" label="confirm password" ref={passwordConfirmRef} type="password" />
         <Button type="submit">{loading ? <Loader height={18} width={18} /> : 'sign up'}</Button>
