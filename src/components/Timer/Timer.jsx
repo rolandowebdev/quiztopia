@@ -19,7 +19,7 @@ const Timer = ({ time, isRenderingRouter }) => {
     }
   }, [isRenderingRouter]);
 
-  return <h1 className="text-2xl font-bold text-primary">{convertNumberToTimer(timer)}</h1>;
+  return <h1 className="mt-2 text-2xl font-bold text-primary">{convertNumberToTimer(timer)}</h1>;
 };
 
 export default Timer;

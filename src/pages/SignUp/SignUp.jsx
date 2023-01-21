@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { SectionContainer } from '../../layouts';
-import { Input, Button, FormFooter } from '../../components';
+import { Input, Button, FormFooter, Loader } from '../../components';
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 
 const ERROR_CODE = {
@@ -14,6 +14,7 @@ const SignUp = () => {
   const passwordRef = useRef(null);
   const passwordConfirmRef = useRef(null);
 
+  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -37,6 +38,7 @@ const SignUp = () => {
     try {
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+      setMessage('Successfully created account!');
       clearInputAndSetError();
     } catch (err) {
       switch (err.code) {
@@ -57,12 +59,13 @@ const SignUp = () => {
 
   return (
     <SectionContainer title>
-      {error && <p className="text-center">{error}</p>}
+      {message && <p className="my-1 text-lg font-bold text-center text-green-500">{message}</p>}
+      {error && <p className="my-1 text-lg font-bold text-center text-red-500">{error}</p>}
       <form onSubmit={handleSignUp} className="flex flex-col w-full gap-4">
         <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />
         <Input id="password" label="password" ref={passwordRef} type="password" />
         <Input id="confirmPassword" label="confirm password" ref={passwordConfirmRef} type="password" />
-        <Button type="submit">{loading ? 'loading...' : 'sign up'}</Button>
+        <Button type="submit">{loading ? <Loader height={18} width={18} /> : 'sign up'}</Button>
       </form>
       <FormFooter textInfo="Already have an account?" textLink="sign in" link="/signin" />
     </SectionContainer>

@@ -68,8 +68,8 @@ const ResumeQuestion = () => {
   };
 
   return (
-    <SectionContainer title>
-      <h2 className="text-3xl">Question {questionIndex + 1}</h2>
+    <SectionContainer>
+      <h2 className="text-3xl font-bold text-primary">Question {questionIndex + 1}</h2>
       <p className="my-3 text-lg">{decode(storeQuestions[questionIndex]?.question)}</p>
       <div className="flex flex-col justify-center w-full gap-4">
         {options.map((option) => (

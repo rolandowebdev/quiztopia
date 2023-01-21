@@ -3,14 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { decode } from 'html-entities';
 
-import { Button, Timer } from '../../components';
+import { Button, Loader, Timer } from '../../components';
 import { SectionContainer } from '../../layouts';
 import { generateRandom } from '../../libs/generateRandom';
 import { generateApiUrl } from '../../libs/generateApiUrl';
 
-import useAxios from '../../hooks/useAxios';
-
 import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questionSlice';
+import useAxios from '../../hooks/useAxios';
 
 const Question = () => {
   const navigate = useNavigate();
@@ -78,12 +77,12 @@ const Question = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Something went wrong!</p>;
+  if (loading) return <Loader height={70} width={70} loaderColor="#4B56D2" />;
+  if (error) return <p className="text-3xl font-bold text-center text-red-500">{error}</p>;
 
   return (
-    <SectionContainer title>
-      <h2 className="text-3xl">Question {questionIndex + 1}</h2>
+    <SectionContainer>
+      <h2 className="text-4xl font-bold text-primary">Question {questionIndex + 1}</h2>
       <p className="my-3 text-lg">{decode(results[questionIndex]?.question)}</p>
       <div className="flex flex-col justify-center w-full gap-4">
         {options.map((option) => (
@@ -92,8 +91,8 @@ const Question = () => {
           </Button>
         ))}
       </div>
-      <p>
-        Correct Answer : {correctAnswer} / {results?.length}
+      <p className="text-xl">
+        Correct Answer : <span className="font-bold text-primary">{correctAnswer}</span> / {results?.length}
       </p>
       <Timer time={results.length * 30} />
     </SectionContainer>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 import { SectionContainer } from '../../layouts';
-import { Input, Button, FormFooter } from '../../components';
+import { Input, Button, FormFooter, Loader } from '../../components';
 
 const ERROR_CODE = {
   WRONG_PASSWORD: 'auth/wrong-password',
@@ -56,11 +56,11 @@ const SignIn = () => {
 
   return (
     <SectionContainer title>
-      {error && <p className="text-center">{error}</p>}
+      {error && <p className="my-1 text-lg font-bold text-center text-red-500">{error}</p>}
       <form onSubmit={handleSignIn} className="flex flex-col w-full gap-4">
         <Input id="email" label="email" ref={emailRef} type="email" placeholder="Type your email here..." />
         <Input id="password" label="password" ref={passwordRef} type="password" forgotPassword />
-        <Button type="submit">{loading ? 'loading...' : 'sign in'}</Button>
+        <Button type="submit">{loading ? <Loader height={18} width={18} /> : 'sign in'}</Button>
       </form>
       <FormFooter textInfo="Don't have an account?" textLink="sign up" link="/signup" />
     </SectionContainer>

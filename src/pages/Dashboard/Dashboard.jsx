@@ -12,7 +12,7 @@ import {
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 import useAxios from '../../hooks/useAxios';
 
-import { Button, Select, Input } from '../../components';
+import { Button, Select, Input, Loader } from '../../components';
 import { SectionContainer } from '../../layouts';
 import { difficultyOptions, questionTypeOptions } from '../../utils/menu';
 
@@ -60,8 +60,8 @@ const Dashboard = () => {
     navigate('/question', { replace: true });
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Some went wrong!</p>;
+  if (loading) return <Loader height={70} width={70} loaderColor="#4B56D2" />;
+  if (error) return <p className="text-3xl font-bold text-center text-red-500">{error}</p>;
 
   return (
     <SectionContainer title>
