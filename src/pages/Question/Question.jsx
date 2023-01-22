@@ -97,10 +97,15 @@ const Question = () => {
           </Button>
         ))}
       </div>
-      <p className="text-xl">
-        Correct Answer : <span className="font-bold text-primary">{correctAnswer}</span> /{' '}
-        {results?.length}
-      </p>
+      <div className="flex items-center justify-between w-full">
+        <p className="text-xl">
+          Correct: <span className="font-bold text-primary">{correctAnswer}</span> / {results?.length}
+        </p>
+        <p className="text-xl">
+          Incorrect: <span className="font-bold text-red-500">{incorrectAnswer}</span> /{' '}
+          {results?.length}
+        </p>
+      </div>
       <Timer time={results.length * 30} />
     </SectionContainer>
   );

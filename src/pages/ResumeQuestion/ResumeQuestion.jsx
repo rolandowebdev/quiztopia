@@ -79,10 +79,16 @@ const ResumeQuestion = () => {
           </Button>
         ))}
       </div>
-      <p className="text-xl">
-        Correct Answer : <span className="font-bold text-primary">{correctAnswer}</span> /{' '}
-        {storeQuestions?.length}
-      </p>
+      <div className="flex items-center justify-between w-full">
+        <p className="text-xl">
+          Correct: <span className="font-bold text-primary">{correctAnswer}</span> /{' '}
+          {storeQuestions?.length}
+        </p>
+        <p className="text-xl">
+          Incorrect: <span className="font-bold text-red-500">{incorrectAnswer}</span> /{' '}
+          {storeQuestions?.length}
+        </p>
+      </div>
       <Timer time={storeQuestions.length * 30} />
     </SectionContainer>
   );
