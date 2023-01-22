@@ -62,7 +62,6 @@ const ResumeQuestion = () => {
 
     if (questionIndex + 1 < storeQuestions.length) {
       setQuestionIndex((prevIndex) => prevIndex + 1);
-      localStorage.setItem('questionIndex', JSON.stringify(questionIndex));
     } else {
       navigate('/result', { replace: true });
     }
