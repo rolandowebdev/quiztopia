@@ -79,8 +79,9 @@ const ResumeQuestion = () => {
           </Button>
         ))}
       </div>
-      <p>
-        Correct Answer : {correctAnswer} / {storeQuestions.length}
+      <p className="text-xl">
+        Correct Answer : <span className="font-bold text-primary">{correctAnswer}</span> /{' '}
+        {storeQuestions?.length}
       </p>
       <Timer time={storeQuestions.length * 30} />
     </SectionContainer>

@@ -69,10 +69,17 @@ const Dashboard = () => {
         <Select id="category" options={response?.trivia_categories} label="category" ref={categoryRef} />
         <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
         <Select id="questionType" options={questionTypeOptions} label="type" ref={questionTypeRef} />
-        <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={18} min={1} />
+        <Input
+          id="amount"
+          label="amount of question"
+          type="number"
+          ref={amountQuestionRef}
+          max={18}
+          min={1}
+        />
         <div className="flex items-center gap-2">
           <Button type="submit">Get Started</Button>
-          {localStorage.length > 0 && (
+          {localStorage.getItem('questions') && (
             <Button type="button">
               <Link to="resume-question">Resume</Link>
             </Button>
