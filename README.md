@@ -14,7 +14,7 @@ cp .env.example .env.local
 yarn
 
 # serve with hot reload at localhost:3000
-yarn dev
+yarn start
 
 # build for production
 yarn build
