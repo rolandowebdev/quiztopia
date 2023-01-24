@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { SectionContainer } from '../../layouts';
-import { Input, Button, FormFooter, Loader, Alert } from '../../components';
+import { Input, Button, FormFooter, Loader, Alert, Password } from '../../components';
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 
 const ERROR_CODE = {
@@ -62,15 +62,9 @@ const SignUp = () => {
       {message && <Alert message={message} />}
       {error && <Alert message={error} type="error" />}
       <form onSubmit={handleSignUp} className="flex flex-col w-full gap-4">
-        <Input
-          id="email"
-          label="email"
-          ref={emailRef}
-          type="email"
-          placeholder="Type your email here..."
-        />
-        <Input id="password" label="password" ref={passwordRef} type="password" />
-        <Input id="confirmPassword" label="confirm password" ref={passwordConfirmRef} type="password" />
+        <Input id="email" label="email" ref={emailRef} type="email" placeholder="Email..." />
+        <Password id="password" label="password" ref={passwordRef} />
+        <Password id="confirmPassword" label="confirm password" ref={passwordConfirmRef} />
         <Button type="submit" value="Sign Up">
           {loading ? <Loader height={18} width={18} /> : 'sign up'}
         </Button>

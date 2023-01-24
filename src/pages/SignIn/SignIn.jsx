@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 import { SectionContainer } from '../../layouts';
-import { Input, Button, FormFooter, Loader, Alert } from '../../components';
+import { Input, Button, FormFooter, Loader, Alert, Password } from '../../components';
 
 const ERROR_CODE = {
   WRONG_PASSWORD: 'auth/wrong-password',
@@ -60,14 +60,13 @@ const SignIn = () => {
     <SectionContainer title>
       {error && <Alert message={error} type="error" />}
       <form onSubmit={handleSignIn} className="flex flex-col w-full gap-4">
-        <Input
-          id="email"
-          label="email"
-          ref={emailRef}
-          type="email"
-          placeholder="Type your email here..."
-        />
-        <Input id="password" label="password" ref={passwordRef} type="password" forgotPassword />
+        <Input id="email" label="email" ref={emailRef} type="email" placeholder="Email..." />
+        <Password id="password" label="password" ref={passwordRef} forgotPassword />
+        <Link
+          to="/forgot-password"
+          className="block font-semibold text-right cursor-pointer text-primary hover:underline">
+          Forgot Password?
+        </Link>
         <Button type="submit" value="Sign In">
           {loading ? <Loader height={18} width={18} /> : 'sign in'}
         </Button>

@@ -14,6 +14,7 @@ const ResumeQuestion = () => {
 
   const navigate = useNavigate();
   const [options, setOptions] = useState([]);
+
   const [questionIndex, setQuestionIndex] = useState(parseInt(storeQuestionIndex, 10) || 0);
   const [correctAnswer, setCorrectAnswer] = useState(parseInt(storeCorrectAnswer, 10) || 0);
   const [incorrectAnswer, setIncorrectAnswer] = useState(parseInt(storeIncorrectAnswer, 10) || 0);
@@ -52,12 +53,12 @@ const ResumeQuestion = () => {
       }
     }
 
-    if (e.target.textContent === question?.correct_answer) {
-      setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1);
-    }
-
     if (e.target.textContent === question?.incorrect_answers) {
       setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1);
+    }
+
+    if (e.target.textContent === question?.correct_answer) {
+      setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1);
     }
 
     if (questionIndex + 1 < storeQuestions.length) {

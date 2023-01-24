@@ -62,9 +62,7 @@ const Dashboard = () => {
 
   return (
     <SectionContainer title>
-      <p className="text-lg text-center">
-        Select menu below for playing <span className="font-semibold text-primary">QuizTopia</span>
-      </p>
+      <p className="text-lg text-center">Select menu below before playing</p>
       <form onSubmit={handleQuestion} className="flex flex-col w-full gap-4">
         <Select id="category" options={response?.trivia_categories} label="category" ref={categoryRef} />
         <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />

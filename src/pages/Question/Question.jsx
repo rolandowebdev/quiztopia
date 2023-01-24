@@ -29,9 +29,7 @@ const Question = () => {
 
   // generate api
   const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty, questionType);
-  const { response, loading, error } = useAxios({
-    url: apiUrl
-  });
+  const { response, loading, error } = useAxios({ url: apiUrl });
   const results = response ? response.results : [];
 
   // TODO: store questionsData, questionIndex, correctAnswer & incorrectAnswer to localstorage
@@ -68,12 +66,12 @@ const Question = () => {
       }
     }
 
-    if (e.target.textContent === question?.correct_answer) {
-      dispatch(setCorrectAnswer(correctAnswer + 1));
-    }
-
     if (e.target.textContent === question?.incorrect_answers) {
       dispatch(setIncorrectAnswer(incorrectAnswer + 1));
+    }
+
+    if (e.target.textContent === question?.correct_answer) {
+      dispatch(setCorrectAnswer(correctAnswer + 1));
     }
 
     if (questionIndex + 1 < results?.length) {
