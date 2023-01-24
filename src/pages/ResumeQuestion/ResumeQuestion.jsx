@@ -73,7 +73,7 @@ const ResumeQuestion = () => {
       <p className="my-3 text-lg">{decode(storeQuestions[questionIndex]?.question)}</p>
       <div className="flex flex-col justify-center w-full gap-4">
         {options.map((option) => (
-          <Button onClick={handleAnswer} type="button" key={option}>
+          <Button key={option} type="button" onClick={handleAnswer} value={decode(option)}>
             {decode(option)}
           </Button>
         ))}

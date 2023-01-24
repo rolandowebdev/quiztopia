@@ -31,7 +31,7 @@ const Result = () => {
           incorrectAnswer={storeIncorrectAnswer}
         />
       </div>
-      <Button onClick={handleBackToDashboard} type="button">
+      <Button type="button" onClick={handleBackToDashboard} value="Back to Dashboard">
         Back to Dashboard
       </Button>
     </SectionContainer>

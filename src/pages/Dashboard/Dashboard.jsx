@@ -12,7 +12,7 @@ import {
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 import { useAxios } from '../../hooks';
 
-import { Button, Select, Input, Loader } from '../../components';
+import { Button, Select, Input, Loader, Alert } from '../../components';
 import { SectionContainer } from '../../layouts';
 import { difficultyOptions, questionTypeOptions } from '../../utils/menu';
 
@@ -58,7 +58,7 @@ const Dashboard = () => {
   };
 
   if (loading) return <Loader height={70} width={70} loaderColor="#4B56D2" />;
-  if (error) return <p className="text-3xl font-bold text-center text-red-500">{error}</p>;
+  if (error) return <Alert message={error} type="error" />;
 
   return (
     <SectionContainer title>
@@ -78,16 +78,18 @@ const Dashboard = () => {
           min={1}
         />
         <div className="flex items-center gap-2">
-          <Button type="submit">Get Started</Button>
+          <Button type="submit" value="Get Started">
+            Get Started
+          </Button>
           {localStorage.getItem('questions') && (
-            <Button type="button">
+            <Button type="button" value="Resume">
               <Link to="resume-question">Resume</Link>
             </Button>
           )}
         </div>
       </form>
-      <Button type="button" onClick={handleSignOut}>
-        Logout
+      <Button type="button" onClick={handleSignOut} value="Sign Out">
+        Sign Out
       </Button>
     </SectionContainer>
   );

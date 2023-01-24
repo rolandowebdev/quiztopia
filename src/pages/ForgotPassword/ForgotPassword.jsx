@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
-import { Button, Input, FormFooter, Loader } from '../../components';
+import { Button, Input, FormFooter, Loader, Alert } from '../../components';
 import { SectionContainer } from '../../layouts';
 
 const ForgotPassword = () => {
@@ -31,8 +31,8 @@ const ForgotPassword = () => {
 
   return (
     <SectionContainer title>
-      {message && <p className="my-1 text-lg font-bold text-center text-green-500">{error}</p>}
-      {error && <p className="my-1 text-lg font-bold text-center text-red-500">{error}</p>}
+      {message && <Alert message={message} />}
+      {error && <Alert message={error} type="error" />}
       <form onSubmit={handleForgotPassword} className="flex flex-col w-full gap-4">
         <Input
           id="email"
@@ -41,7 +41,9 @@ const ForgotPassword = () => {
           type="email"
           placeholder="Type your email here..."
         />
-        <Button type="submit">{loading ? <Loader height={18} width={18} /> : 'reset password'}</Button>
+        <Button type="submit" value="Reset Password">
+          {loading ? <Loader height={18} width={18} /> : 'reset password'}
+        </Button>
       </form>
       <FormFooter textInfo="Back to" textLink="sign in" link="/signin" />
     </SectionContainer>

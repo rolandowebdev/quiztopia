@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { SectionContainer } from '../../layouts';
-import { Input, Button, FormFooter, Loader } from '../../components';
+import { Input, Button, FormFooter, Loader, Alert } from '../../components';
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider';
 
 const ERROR_CODE = {
@@ -59,8 +59,8 @@ const SignUp = () => {
 
   return (
     <SectionContainer title>
-      {message && <p className="my-1 text-lg font-bold text-center text-green-500">{message}</p>}
-      {error && <p className="my-1 text-lg font-bold text-center text-red-500">{error}</p>}
+      {message && <Alert message={message} />}
+      {error && <Alert message={error} type="error" />}
       <form onSubmit={handleSignUp} className="flex flex-col w-full gap-4">
         <Input
           id="email"
@@ -71,7 +71,9 @@ const SignUp = () => {
         />
         <Input id="password" label="password" ref={passwordRef} type="password" />
         <Input id="confirmPassword" label="confirm password" ref={passwordConfirmRef} type="password" />
-        <Button type="submit">{loading ? <Loader height={18} width={18} /> : 'sign up'}</Button>
+        <Button type="submit" value="Sign Up">
+          {loading ? <Loader height={18} width={18} /> : 'sign up'}
+        </Button>
       </form>
       <FormFooter textInfo="Already have an account?" textLink="sign in" link="/signin" />
     </SectionContainer>

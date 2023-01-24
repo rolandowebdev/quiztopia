@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { decode } from 'html-entities';
 
-import { Button, Loader, Timer } from '../../components';
+import { Alert, Button, Loader, Timer } from '../../components';
 import { SectionContainer } from '../../layouts';
 import { generateRandom } from '../../libs/generateRandom';
 import { generateApiUrl } from '../../libs/generateApiUrl';
@@ -84,7 +84,7 @@ const Question = () => {
   };
 
   if (loading) return <Loader height={70} width={70} loaderColor="#4B56D2" />;
-  if (error) return <p className="text-3xl font-bold text-center text-red-500">{error}</p>;
+  if (error) return <Alert message={error} type="error" />;
 
   return (
     <SectionContainer>
@@ -92,7 +92,7 @@ const Question = () => {
       <p className="my-3 text-lg">{decode(results[questionIndex]?.question)}</p>
       <div className="flex flex-col justify-center w-full gap-4">
         {options.map((option) => (
-          <Button onClick={handleAnswer} type="button" key={option}>
+          <Button key={option} type="button" onClick={handleAnswer} value={decode(option)}>
             {decode(option)}
           </Button>
         ))}
