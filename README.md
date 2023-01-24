@@ -1,6 +1,11 @@
-# quiztopia
+# QuizTopia
 
 [![QuizTopia Image](public/quiztopia.png)](https://quiztopia-beta.netlify.app)
+
+## Login to QuizTopia
+
+Email : test@gmail.com
+Password : testing
 
 ## Developing
 
@@ -25,6 +30,7 @@ yarn build
 - Framework - [**ReactJS**](https://reactjs.org/)
 - Styling - [**Tailwind CSS**](https://tailwindcss.com/)
 - Fonts - [**GoogleFonts**](https://fonts.google.com/)
+- Icons - [**ReactIcons**](https://react-icons.github.io/react-icons/)
 - Data Fetching - [**Axios**](https://axios-http.com/)
 - State Management - [**Redux**](https://redux-toolkit.js.org/)
 - Cliend Side Routing - [**ReactRouterDOM**](https://reactrouter.com/)
