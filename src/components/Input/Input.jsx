@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef } from 'react'
 
 const Input = forwardRef(({ label, id, type, placeholder, ...rest }, ref) => (
   <label htmlFor={id}>
@@ -15,6 +15,6 @@ const Input = forwardRef(({ label, id, type, placeholder, ...rest }, ref) => (
       />
     </div>
   </label>
-));
+))
 
-export default Input;
+export default Input

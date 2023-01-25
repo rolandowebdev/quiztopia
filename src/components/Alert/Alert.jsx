@@ -6,6 +6,6 @@ const Alert = ({ message, type }) => (
     role="alert">
     {message}
   </h2>
-);
+)
 
-export default Alert;
+export default Alert

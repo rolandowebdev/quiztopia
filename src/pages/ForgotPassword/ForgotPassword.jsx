@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
-import { Button, Input, FormFooter, Loader, Alert } from '../../components'
+import { Button, Input, NavigateLink, Loader, Alert } from '../../components'
 import { SectionContainer } from '../../layouts'
 
 const ForgotPassword = () => {
@@ -39,7 +39,7 @@ const ForgotPassword = () => {
           {loading ? <Loader height={18} width={18} /> : 'reset password'}
         </Button>
       </form>
-      <FormFooter textInfo="Back to" textLink="Sign In" link="/signin" />
+      <NavigateLink link="/signin" textLink="Sign In" textInfo="Back to" />
     </SectionContainer>
   )
 }

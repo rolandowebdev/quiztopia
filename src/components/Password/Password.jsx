@@ -1,8 +1,8 @@
-import { forwardRef, useState } from 'react';
-import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import { forwardRef, useState } from 'react'
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 
 const Password = forwardRef(({ label, id }, ref) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
   return (
     <label htmlFor={id}>
       <span className="block mb-[6px] capitalize">{label}</span>
@@ -23,7 +23,7 @@ const Password = forwardRef(({ label, id }, ref) => {
         </span>
       </div>
     </label>
-  );
-});
+  )
+})
 
-export default Password;
+export default Password

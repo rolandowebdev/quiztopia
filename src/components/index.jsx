@@ -1,8 +1,8 @@
-export { default as Input } from './Input/Input';
-export { default as Button } from './Button/Button';
-export { default as FormFooter } from './Footer/FormFooter';
-export { default as Select } from './Select/Select';
-export { default as Timer } from './Timer/Timer';
-export { default as Loader } from './Loader/Loader';
-export { default as Alert } from './Alert/Alert';
-export { default as Password } from './Password/Password';
+export { default as Input } from './Input/Input'
+export { default as Button } from './Button/Button'
+export { default as NavigateLink } from './NavigateLink/NavigateLink'
+export { default as Select } from './Select/Select'
+export { default as Timer } from './Timer/Timer'
+export { default as Loader } from './Loader/Loader'
+export { default as Alert } from './Alert/Alert'
+export { default as Password } from './Password/Password'

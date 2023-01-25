@@ -1,1 +1,1 @@
-export { default as useAxios } from './useAxios/useAxios';
+export { default as useAxios } from './useAxios/useAxios'

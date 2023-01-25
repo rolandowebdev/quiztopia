@@ -41,16 +41,15 @@ const Dashboard = () => {
   const handleQuestion = (e) => {
     e.preventDefault()
 
-    if (categoryRef.current.value !== 'select category') {
+    if (categoryRef.current.value !== 'any category') {
       dispatch(setQuestionCategory(categoryRef.current.value))
     }
 
-    if (difficultyRef.current.value !== 'select difficulty') {
-      if (questionTypeRef.current.value === 'boolean') dispatch(setQuestionDifficulty('medium'))
-      else dispatch(setQuestionDifficulty(difficultyRef.current.value))
+    if (difficultyRef.current.value !== 'any difficulty') {
+      dispatch(setQuestionDifficulty(difficultyRef.current.value))
     }
 
-    if (questionTypeRef.current.value !== 'select type') {
+    if (questionTypeRef.current.value !== 'any type') {
       dispatch(setQuestionType(questionTypeRef.current.value))
     }
 
@@ -65,10 +64,10 @@ const Dashboard = () => {
     <SectionContainer title>
       <p className="text-lg text-center">Select menu below before playing</p>
       <form onSubmit={handleQuestion} className="flex flex-col w-full gap-4">
-        <Select id="category" options={response?.trivia_categories} label="category" ref={categoryRef} />
+        <Select id="category" options={response?.trivia_categories?.slice(0, 10)} label="category" ref={categoryRef} />
         <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
         <Select id="questionType" options={questionTypeOptions} label="type" ref={questionTypeRef} />
-        <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={18} min={1} />
+        <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={30} min={1} />
         <div className="flex items-center gap-2">
           <Button type="submit" value="Get Started">
             Get Started

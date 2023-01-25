@@ -15,6 +15,6 @@ const Score = ({ correctAnswer, amountOfQuestion, incorrectAnswer }) => (
       </h3>
     </div>
   </div>
-);
+)
 
-export default Score;
+export default Score

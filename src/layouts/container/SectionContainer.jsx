@@ -3,6 +3,6 @@ const SectionContainer = ({ children, title }) => (
     {title && <h1 className="text-5xl text-primary font-logo">QuizTopia</h1>}
     {children}
   </section>
-);
+)
 
-export default SectionContainer;
+export default SectionContainer

@@ -52,19 +52,11 @@ const Question = () => {
   const handleAnswer = (e) => {
     const question = results[questionIndex]
 
-    if (question && question.incorrect_answers) {
-      if (typeof question.incorrect_answers === 'object') {
-        question.incorrect_answers.map(
-          (data) => e.target.textContent === data && dispatch(setIncorrectAnswer(incorrectAnswer + 1))
-        )
-      }
-    }
-
-    if (e.target.textContent === question?.incorrect_answers) {
+    if (question && question.incorrect_answers.includes(e.target.textContent)) {
       dispatch(setIncorrectAnswer(incorrectAnswer + 1))
     }
 
-    if (e.target.textContent === question?.correct_answer) {
+    if (question.correct_answer.includes(e.target.textContent)) {
       dispatch(setCorrectAnswer(correctAnswer + 1))
     }
 

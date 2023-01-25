@@ -1,1 +1,1 @@
-export { default as PrivateRoutes } from './PrivateRoutes/PrivateRoutes';
+export { default as PrivateRoutes } from './PrivateRoutes/PrivateRoutes'
