@@ -1,7 +1,6 @@
-/* eslint-disable array-callback-return */
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { decode } from 'html-entities'
 
 import { Alert, Button, Loader, Timer } from '../../components'
@@ -17,6 +16,7 @@ const Question = () => {
   const dispatch = useDispatch()
 
   const [questionIndex, setQuestionIndex] = useState(0)
+  const [navigateToResultPage, setNavigateToResultPage] = useState(false)
   const [options, setOptions] = useState([])
 
   const { questionCategory, questionDifficulty, amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector(
@@ -53,22 +53,25 @@ const Question = () => {
   // TODO: handle when user choose answer
   const handleAnswer = (e) => {
     const question = results[questionIndex]
+    const isCorrect = question.correct_answer.includes(e.target.textContent)
+    const isIncorrect = question.incorrect_answers.includes(e.target.textContent)
 
-    if (question.incorrect_answers.includes(e.target.textContent)) {
+    if (isIncorrect) {
       dispatch(setIncorrectAnswer(incorrectAnswer + 1))
     }
 
-    if (question.correct_answer.includes(e.target.textContent)) {
+    if (isCorrect) {
       dispatch(setCorrectAnswer(correctAnswer + 1))
     }
 
-    if (questionIndex + 1 < results?.length) {
-      setQuestionIndex(questionIndex + 1)
-    } else {
-      navigate('/result', { replace: true })
+    if (questionIndex + 1 >= results?.length) {
+      setNavigateToResultPage((prev) => !prev)
     }
+
+    setQuestionIndex(questionIndex + 1)
   }
 
+  if (navigateToResultPage) return <Navigate to="/result" replace={true} />
   if (loading) return <Loader height={70} width={70} loaderColor="#4B56D2" />
   if (error) return <Alert message={error} type="error" />
 

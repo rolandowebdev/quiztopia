@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { decode } from 'html-entities'
 import { generateRandom } from '../../libs/generateRandom'
@@ -12,7 +12,7 @@ const ResumeQuestion = () => {
   const storeCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'))
   const storeIncorrectAnswer = JSON.parse(localStorage.getItem('incorrectAnswer'))
 
-  const navigate = useNavigate()
+  const [navigateToResultPage, setNavigateToResultPage] = useState(false)
   const [options, setOptions] = useState([])
 
   const [questionIndex, setQuestionIndex] = useState(parseInt(storeQuestionIndex, 10) || 0)
@@ -42,21 +42,25 @@ const ResumeQuestion = () => {
   // TODO: handle when user choose answer
   const handleAnswer = (e) => {
     const question = storeQuestions[questionIndex]
+    const isCorrect = question.incorrect_answers.includes(e.target.textContent)
+    const isIncorrect = question.correct_answer.includes(e.target.textContent)
 
-    if (question.incorrect_answers.includes(e.target.textContent)) {
-      setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
-    }
-
-    if (question?.correct_answer.includes(e.target.textContent)) {
+    if (isCorrect) {
       setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1)
     }
 
-    if (questionIndex + 1 < storeQuestions?.length) {
-      setQuestionIndex(questionIndex + 1)
-    } else {
-      navigate('/result', { replace: true })
+    if (isIncorrect) {
+      setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
     }
+
+    if (questionIndex + 1 >= storeQuestions?.length) {
+      setNavigateToResultPage((prev) => !prev)
+    }
+
+    setQuestionIndex(questionIndex + 1)
   }
+
+  if (navigateToResultPage) return <Navigate to="/result" replace={true} />
 
   return (
     <SectionContainer>
