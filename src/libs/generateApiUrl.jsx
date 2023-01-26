@@ -1,7 +1,7 @@
-export const generateApiUrl = (amount, questionCategory, questionDifficulty, questionType) => {
+export const generateApiUrl = (amount, questionCategory, questionDifficulty) => {
   let apiUrl = `/api.php?amount=${amount}`
   if (questionCategory) apiUrl = apiUrl.concat(`&category=${questionCategory}`)
   if (questionDifficulty) apiUrl = apiUrl.concat(`&difficulty=${questionDifficulty}`)
-  if (questionType) apiUrl = apiUrl.concat(`&type=${questionType}`)
+  apiUrl.concat('&type=multiple')
   return apiUrl
 }

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -18,11 +19,12 @@ const Question = () => {
   const [questionIndex, setQuestionIndex] = useState(0)
   const [options, setOptions] = useState([])
 
-  const { questionCategory, questionDifficulty, questionType, amountOfQuestion, correctAnswer, incorrectAnswer } =
-    useSelector((state) => state.question)
+  const { questionCategory, questionDifficulty, amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector(
+    (state) => state.question
+  )
 
   // generate api
-  const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty, questionType)
+  const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty)
   const { response, loading, error } = useAxios({ url: apiUrl })
   const results = response ? response.results : []
 
@@ -52,7 +54,7 @@ const Question = () => {
   const handleAnswer = (e) => {
     const question = results[questionIndex]
 
-    if (question && question.incorrect_answers.includes(e.target.textContent)) {
+    if (question.incorrect_answers.includes(e.target.textContent)) {
       dispatch(setIncorrectAnswer(incorrectAnswer + 1))
     }
 

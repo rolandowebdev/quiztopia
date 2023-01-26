@@ -43,7 +43,7 @@ const ResumeQuestion = () => {
   const handleAnswer = (e) => {
     const question = storeQuestions[questionIndex]
 
-    if (question && question.incorrect_answers.includes(e.target.textContent)) {
+    if (question.incorrect_answers.includes(e.target.textContent)) {
       setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
     }
 
@@ -51,11 +51,9 @@ const ResumeQuestion = () => {
       setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1)
     }
 
-    if (questionIndex + 1 < storeQuestions.length) {
-      setQuestionIndex((prevIndex) => prevIndex + 1)
-    }
-
-    if (questionIndex + 1 === storeQuestions.length) {
+    if (questionIndex + 1 < storeQuestions?.length) {
+      setQuestionIndex(questionIndex + 1)
+    } else {
       navigate('/result', { replace: true })
     }
   }

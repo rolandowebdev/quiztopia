@@ -2,24 +2,18 @@ import { useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-import {
-  setQuestionCategory,
-  setQuestionDifficulty,
-  setQuestionType,
-  setAmountOfQuestion,
-} from '../../app/question/questionSlice'
+import { setQuestionCategory, setQuestionDifficulty, setAmountOfQuestion } from '../../app/question/questionSlice'
 
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
 import { useAxios } from '../../hooks'
 
 import { Button, Select, Input, Loader, Alert } from '../../components'
 import { SectionContainer } from '../../layouts'
-import { difficultyOptions, questionTypeOptions } from '../../data/menu'
+import { difficultyOptions } from '../../data/menu'
 
 const Dashboard = () => {
   const categoryRef = useRef(null)
   const difficultyRef = useRef(null)
-  const questionTypeRef = useRef(null)
   const amountQuestionRef = useRef(null)
 
   const { signout } = useAuth()
@@ -49,10 +43,6 @@ const Dashboard = () => {
       dispatch(setQuestionDifficulty(difficultyRef.current.value))
     }
 
-    if (questionTypeRef.current.value !== 'any type') {
-      dispatch(setQuestionType(questionTypeRef.current.value))
-    }
-
     dispatch(setAmountOfQuestion(amountQuestionRef.current.value))
     navigate('/question', { replace: true })
   }
@@ -66,7 +56,6 @@ const Dashboard = () => {
       <form onSubmit={handleQuestion} className="flex flex-col w-full gap-4">
         <Select id="category" options={response?.trivia_categories?.slice(0, 10)} label="category" ref={categoryRef} />
         <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
-        <Select id="questionType" options={questionTypeOptions} label="type" ref={questionTypeRef} />
         <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={30} min={1} />
         <div className="flex items-center gap-2">
           <Button type="submit" value="Get Started">
