@@ -1,12 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
 
-import { SignUp, SignIn, Dashboard, ForgotPassword, Question, Result, ResumeQuestion } from './pages'
+import { SignUp, SignIn, Dashboard, ForgotPassword, Question, Result, ResumeQuestion, NotFound } from './pages'
 import { PageContainer } from './layouts'
 import { PrivateRoutes } from './routes'
 
 const App = () => (
   <PageContainer>
     <Routes>
+      <Route path="*" element={<NotFound />} />
       <Route
         path="/"
         element={

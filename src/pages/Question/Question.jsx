@@ -18,7 +18,6 @@ const Question = () => {
 
   const dispatch = useDispatch()
   const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
-  const [hasNavigatedResume, setHasNavigatedResume] = useState(false)
   const [notAnswerd, setNotAnswerd] = useState(parseInt(amountOfQuestion, 10) || 0)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [options, setOptions] = useState([])
@@ -50,29 +49,28 @@ const Question = () => {
   }
 
   useEffect(() => {
-    if (!loading) {
-      if (!results?.length) setHasNavigatedResume(true)
-      else handleOptions()
-    }
-  }, [loading, results, questionIndex, hasNavigatedResume])
+    if (!loading && results?.length) handleOptions()
+  }, [loading, results, questionIndex])
 
   // TODO: handle when user choose answer
   const handleAnswer = (e) => {
     const question = results[questionIndex]
     const isCorrect = question.correct_answer.includes(e.target.textContent)
     const isIncorrect = question.incorrect_answers.includes(e.target.textContent)
-    const isNotAnswerd = results.length - 1 - (correctAnswer + incorrectAnswer)
+    const isNotAnswerd = results.length - (incorrectAnswer + correctAnswer)
 
-    if (isIncorrect) dispatch(setIncorrectAnswer(incorrectAnswer + 1))
-    if (isCorrect) dispatch(setCorrectAnswer(correctAnswer + 1))
-    if (questionIndex + 1 >= results?.length) setHasNavigatedResult(true)
+    if (question) {
+      if (isIncorrect) dispatch(setIncorrectAnswer(incorrectAnswer + 1))
+      if (isCorrect) dispatch(setCorrectAnswer(correctAnswer + 1))
+      if (questionIndex + 1 >= results?.length) setHasNavigatedResult(true)
+    }
 
-    setNotAnswerd(isNotAnswerd)
+    setNotAnswerd(isNotAnswerd - 1)
     setQuestionIndex(questionIndex + 1)
   }
 
+  if (!loading && !results?.length) return <Navigate to="/resume-question" replace={true} />
   if (hasNavigatedResult) return <Navigate to="/result" replace={true} />
-  if (hasNavigatedResume) return <Navigate to="/resume-question" replace={true} />
 
   if (loading) return <Loader height={40} width={40} loaderColor="#4B56D2" />
   if (error) return <Alert message={error} type="error" />

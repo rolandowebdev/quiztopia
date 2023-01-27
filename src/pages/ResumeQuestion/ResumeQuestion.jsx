@@ -41,24 +41,25 @@ const ResumeQuestion = () => {
   }
 
   useEffect(() => {
-    if (storeQuestions?.length) handleOptions()
-  }, [questionIndex, correctAnswer, incorrectAnswer])
+    if (storeQuestions && storeQuestions?.length > 0) handleOptions()
+  }, [questionIndex])
 
   // TODO: handle when user choose answer
   const handleAnswer = (e) => {
     const question = storeQuestions[questionIndex]
     const isCorrect = question.incorrect_answers.includes(e.target.textContent)
     const isIncorrect = question.correct_answer.includes(e.target.textContent)
-    const isNotAnswerd = storeQuestions.length - 1 - (correctAnswer + incorrectAnswer)
+    const isNotAnswerd = storeQuestions.length - (incorrectAnswer + correctAnswer)
 
     if (isCorrect) setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1)
     if (isIncorrect) setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
     if (questionIndex + 1 >= storeQuestions?.length) setHasNavigatedResult(true)
 
-    setNotAnswerd(isNotAnswerd)
+    setNotAnswerd(isNotAnswerd - 1)
     setQuestionIndex(questionIndex + 1)
   }
 
+  if (!storeQuestions) return <Navigate to="/" replace={true} />
   if (hasNavigatedResult) return <Navigate to="/result" replace={true} />
 
   return (
