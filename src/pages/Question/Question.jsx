@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { decode } from 'html-entities'
 
 import { Alert, Button, Loader, Timer } from '../../components'
@@ -12,23 +12,22 @@ import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questio
 import { useAxios } from '../../hooks'
 
 const Question = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
+  const [hasNavigatedResume, setHasNavigatedResume] = useState(false)
   const [questionIndex, setQuestionIndex] = useState(0)
-  const [navigateToResultPage, setNavigateToResultPage] = useState(false)
   const [options, setOptions] = useState([])
 
   const { questionCategory, questionDifficulty, amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector(
     (state) => state.question
   )
 
-  // generate api
+  // generated api
   const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty)
   const { response, loading, error } = useAxios({ url: apiUrl })
   const results = response ? response.results : []
 
-  // TODO: store questionsData, questionIndex, correctAnswer & incorrectAnswer to localstorage
+  // TODO: store questions data into localstorage
   useEffect(() => {
     if (results?.length) {
       localStorage.setItem('questionIndex', JSON.stringify(questionIndex))
@@ -36,19 +35,24 @@ const Question = () => {
       localStorage.setItem('incorrectAnswer', JSON.stringify(incorrectAnswer))
       localStorage.setItem('correctAnswer', JSON.stringify(correctAnswer))
     }
-  }, [results, questionIndex])
+  }, [results, questionIndex, incorrectAnswer, correctAnswer])
 
-  // TODO: make correct answer random position every user choose answer
-  useEffect(() => {
-    // * check if loading finished & questions empty -> navigate to resume question page
-    if (!loading && !results?.length) navigate('/resume-question', { replace: true })
-    if (!loading && results?.length) {
-      const question = results[questionIndex]
-      const answers = [...(question?.incorrect_answers || [])]
-      answers.splice(generateRandom(question?.incorrect_answers.length), 0, question?.correct_answer)
+  // TODO: make random correct answer each user chooses an answer
+  const handleOptions = () => {
+    const question = results[questionIndex]
+    if (question && question.incorrect_answers) {
+      const answers = [...question.incorrect_answers]
+      answers.splice(generateRandom(question.incorrect_answers.length), 0, question.correct_answer)
       setOptions(answers)
     }
-  }, [results, questionIndex])
+  }
+
+  useEffect(() => {
+    if (!loading) {
+      if (!results?.length) setHasNavigatedResume(true)
+      else handleOptions()
+    }
+  }, [loading, results, questionIndex, hasNavigatedResume])
 
   // TODO: handle when user choose answer
   const handleAnswer = (e) => {
@@ -56,22 +60,16 @@ const Question = () => {
     const isCorrect = question.correct_answer.includes(e.target.textContent)
     const isIncorrect = question.incorrect_answers.includes(e.target.textContent)
 
-    if (isIncorrect) {
-      dispatch(setIncorrectAnswer(incorrectAnswer + 1))
-    }
-
-    if (isCorrect) {
-      dispatch(setCorrectAnswer(correctAnswer + 1))
-    }
-
-    if (questionIndex + 1 >= results?.length) {
-      setNavigateToResultPage((prev) => !prev)
-    }
+    if (isIncorrect) dispatch(setIncorrectAnswer(incorrectAnswer + 1))
+    if (isCorrect) dispatch(setCorrectAnswer(correctAnswer + 1))
+    if (questionIndex + 1 >= results?.length) setHasNavigatedResult(true)
 
     setQuestionIndex(questionIndex + 1)
   }
 
-  if (navigateToResultPage) return <Navigate to="/result" replace={true} />
+  if (hasNavigatedResult) return <Navigate to="/result" replace={true} />
+  if (hasNavigatedResume) return <Navigate to="/resume-question" replace={true} />
+
   if (loading) return <Loader height={70} width={70} loaderColor="#4B56D2" />
   if (error) return <Alert message={error} type="error" />
 
