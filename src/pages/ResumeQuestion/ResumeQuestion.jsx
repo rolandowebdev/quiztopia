@@ -12,9 +12,8 @@ const ResumeQuestion = () => {
   const storeCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'))
   const storeIncorrectAnswer = JSON.parse(localStorage.getItem('incorrectAnswer'))
 
-  const [navigateToResultPage, setNavigateToResultPage] = useState(false)
   const [options, setOptions] = useState([])
-
+  const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
   const [questionIndex, setQuestionIndex] = useState(parseInt(storeQuestionIndex, 10) || 0)
   const [correctAnswer, setCorrectAnswer] = useState(parseInt(storeCorrectAnswer, 10) || 0)
   const [incorrectAnswer, setIncorrectAnswer] = useState(parseInt(storeIncorrectAnswer, 10) || 0)
@@ -28,15 +27,18 @@ const ResumeQuestion = () => {
     }
   }, [questionIndex, correctAnswer, incorrectAnswer])
 
-  // TODO: make correct answer random position every user choose answer
-  useEffect(() => {
-    if (storeQuestions?.length) {
-      const question = storeQuestions[questionIndex]
-      const answer = [...(question?.incorrect_answers || [])]
-      // * make correct answer random position
-      answer.splice(generateRandom(question?.incorrect_answers.length), 0, question?.correct_answer)
-      setOptions(answer)
+  // TODO: make random correct answer each user chooses an answer
+  const handleOptions = () => {
+    const question = storeQuestions[questionIndex]
+    if (question && question.incorrect_answers) {
+      const answers = [...question.incorrect_answers]
+      answers.splice(generateRandom(question.incorrect_answers.length), 0, question.correct_answer)
+      setOptions(answers)
     }
+  }
+
+  useEffect(() => {
+    if (storeQuestions?.length) handleOptions()
   }, [questionIndex, correctAnswer, incorrectAnswer])
 
   // TODO: handle when user choose answer
@@ -45,22 +47,14 @@ const ResumeQuestion = () => {
     const isCorrect = question.incorrect_answers.includes(e.target.textContent)
     const isIncorrect = question.correct_answer.includes(e.target.textContent)
 
-    if (isCorrect) {
-      setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1)
-    }
-
-    if (isIncorrect) {
-      setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
-    }
-
-    if (questionIndex + 1 >= storeQuestions?.length) {
-      setNavigateToResultPage((prev) => !prev)
-    }
+    if (isCorrect) setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1)
+    if (isIncorrect) setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
+    if (questionIndex + 1 >= storeQuestions?.length) setHasNavigatedResult(true)
 
     setQuestionIndex(questionIndex + 1)
   }
 
-  if (navigateToResultPage) return <Navigate to="/result" replace={true} />
+  if (hasNavigatedResult) return <Navigate to="/result" replace={true} />
 
   return (
     <SectionContainer>
