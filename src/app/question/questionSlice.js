@@ -6,6 +6,7 @@ const initialState = {
   amountOfQuestion: 0,
   correctAnswer: 0,
   incorrectAnswer: 0,
+  notAnswer: 0,
 }
 
 export const questionSlice = createSlice({
@@ -27,16 +28,13 @@ export const questionSlice = createSlice({
     setIncorrectAnswer: (state, action) => {
       state.incorrectAnswer = action.payload
     },
+    setNotAnswer: (state, action) => {
+      state.notAnswer = action.payload
+    },
   },
 })
 
-export const {
-  setAmountOfQuestion,
-  setQuestionCategory,
-  setQuestionDifficulty,
-
-  setCorrectAnswer,
-  setIncorrectAnswer,
-} = questionSlice.actions
+export const { setAmountOfQuestion, setQuestionCategory, setQuestionDifficulty, setCorrectAnswer, setIncorrectAnswer } =
+  questionSlice.actions
 
 export default questionSlice.reducer

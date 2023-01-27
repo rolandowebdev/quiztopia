@@ -13,6 +13,7 @@ const Result = () => {
   const storeQuestionAmount = JSON.parse(localStorage.getItem('questions'))
   const storeCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'))
   const storeIncorrectAnswer = JSON.parse(localStorage.getItem('incorrectAnswer'))
+  const storeNotAnswerd = JSON.parse(localStorage.getItem('notAnswerd'))
 
   const handleBackToDashboard = () => {
     localStorage.clear()
@@ -29,6 +30,7 @@ const Result = () => {
           amountOfQuestion={storeQuestionAmount.length}
           correctAnswer={storeCorrectAnswer}
           incorrectAnswer={storeIncorrectAnswer}
+          notAnswerd={storeNotAnswerd}
         />
       </div>
       <Button type="button" onClick={handleBackToDashboard} value="Back to Dashboard">

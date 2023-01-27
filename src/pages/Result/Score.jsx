@@ -1,16 +1,23 @@
-const Score = ({ correctAnswer, amountOfQuestion, incorrectAnswer }) => (
-  <div className="flex items-center gap-3 text-5xl font-bold ">
-    <div className="flex flex-col p-3 text-center border border-gray-500 rounded-lg">
-      <p className="text-lg text-gray-500 w-max">Correct answer</p>
-      <h3 className="text-6xl text-green-500">
+const Score = ({ correctAnswer, amountOfQuestion, incorrectAnswer, notAnswerd }) => (
+  <div className="flex flex-wrap items-center justify-center gap-3 text-5xl text-gray-500">
+    <div className="flex min-w-[160px] flex-col p-3 text-center border border-gray-500 rounded-lg">
+      <p className="text-lg">Correct answer</p>
+      <h3 className="text-6xl font-bold text-green-500">
         {correctAnswer}
         <span className="text-lg text-gray-500 ">/ {amountOfQuestion}</span>
       </h3>
     </div>
-    <div className="flex flex-col p-3 text-center text-gray-500 border border-gray-500 rounded-lg">
-      <p className="text-lg w-max">Incorrect answer</p>
-      <h3 className="text-6xl text-red-500">
+    <div className="flex min-w-[160px] flex-col p-3 text-center border border-gray-500 rounded-lg">
+      <p className="text-lg">Incorrect answer</p>
+      <h3 className="text-6xl font-bold text-red-500">
         {incorrectAnswer}
+        <span className="text-lg text-gray-500 ">/ {amountOfQuestion}</span>
+      </h3>
+    </div>
+    <div className="flex min-w-[160px] flex-col p-3 text-center border border-gray-500 rounded-lg">
+      <p className="text-lg">Not answerd</p>
+      <h3 className="text-6xl font-bold text-gray-700">
+        {notAnswerd}
         <span className="text-lg text-gray-500 ">/ {amountOfQuestion}</span>
       </h3>
     </div>

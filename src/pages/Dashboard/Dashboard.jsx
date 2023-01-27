@@ -47,7 +47,7 @@ const Dashboard = () => {
     navigate('/question', { replace: true })
   }
 
-  if (loading) return <Loader height={70} width={70} loaderColor="#4B56D2" />
+  if (loading) return <Loader height={40} width={40} loaderColor="#4B56D2" />
   if (error) return <Alert message={error} type="error" />
 
   return (

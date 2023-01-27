@@ -12,15 +12,16 @@ import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questio
 import { useAxios } from '../../hooks'
 
 const Question = () => {
-  const dispatch = useDispatch()
-  const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
-  const [hasNavigatedResume, setHasNavigatedResume] = useState(false)
-  const [questionIndex, setQuestionIndex] = useState(0)
-  const [options, setOptions] = useState([])
-
   const { questionCategory, questionDifficulty, amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector(
     (state) => state.question
   )
+
+  const dispatch = useDispatch()
+  const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
+  const [hasNavigatedResume, setHasNavigatedResume] = useState(false)
+  const [notAnswerd, setNotAnswerd] = useState(parseInt(amountOfQuestion, 10) || 0)
+  const [questionIndex, setQuestionIndex] = useState(0)
+  const [options, setOptions] = useState([])
 
   // generated api
   const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty)
@@ -34,8 +35,9 @@ const Question = () => {
       localStorage.setItem('questions', JSON.stringify(results))
       localStorage.setItem('incorrectAnswer', JSON.stringify(incorrectAnswer))
       localStorage.setItem('correctAnswer', JSON.stringify(correctAnswer))
+      localStorage.setItem('notAnswerd', JSON.stringify(notAnswerd))
     }
-  }, [results, questionIndex, incorrectAnswer, correctAnswer])
+  }, [results, questionIndex, incorrectAnswer, correctAnswer, notAnswerd])
 
   // TODO: make random correct answer each user chooses an answer
   const handleOptions = () => {
@@ -59,18 +61,20 @@ const Question = () => {
     const question = results[questionIndex]
     const isCorrect = question.correct_answer.includes(e.target.textContent)
     const isIncorrect = question.incorrect_answers.includes(e.target.textContent)
+    const isNotAnswerd = results.length - 1 - (correctAnswer + incorrectAnswer)
 
     if (isIncorrect) dispatch(setIncorrectAnswer(incorrectAnswer + 1))
     if (isCorrect) dispatch(setCorrectAnswer(correctAnswer + 1))
     if (questionIndex + 1 >= results?.length) setHasNavigatedResult(true)
 
+    setNotAnswerd(isNotAnswerd)
     setQuestionIndex(questionIndex + 1)
   }
 
   if (hasNavigatedResult) return <Navigate to="/result" replace={true} />
   if (hasNavigatedResume) return <Navigate to="/resume-question" replace={true} />
 
-  if (loading) return <Loader height={70} width={70} loaderColor="#4B56D2" />
+  if (loading) return <Loader height={40} width={40} loaderColor="#4B56D2" />
   if (error) return <Alert message={error} type="error" />
 
   return (
@@ -86,10 +90,12 @@ const Question = () => {
       </div>
       <div className="flex items-center justify-between w-full">
         <p className="text-xl">
-          Correct: <span className="font-bold text-primary">{correctAnswer}</span> / {results?.length}
+          Correct: <span className="font-bold text-green-500">{correctAnswer}</span> /
+          <span className="ml-1 text-gray-500">{results?.length}</span>
         </p>
         <p className="text-xl">
-          Incorrect: <span className="font-bold text-red-500">{incorrectAnswer}</span> / {results?.length}
+          Incorrect: <span className="font-bold text-red-500">{incorrectAnswer}</span> /
+          <span className="ml-1 text-gray-500">{results?.length}</span>
         </p>
       </div>
       <Timer time={results.length * 30} />
