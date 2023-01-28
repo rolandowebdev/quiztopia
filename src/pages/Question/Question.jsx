@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Navigate } from 'react-router-dom'
 import { decode } from 'html-entities'
+import { useState, useEffect } from 'react'
+import { Navigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { Alert, Button, Loader, Timer } from '../../components'
 import { SectionContainer } from '../../layouts'
@@ -17,10 +17,10 @@ const Question = () => {
   )
 
   const dispatch = useDispatch()
+  const [options, setOptions] = useState([])
+  const [questionIndex, setQuestionIndex] = useState(0)
   const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
   const [notAnswerd, setNotAnswerd] = useState(parseInt(amountOfQuestion, 10) || 0)
-  const [questionIndex, setQuestionIndex] = useState(0)
-  const [options, setOptions] = useState([])
 
   // generated api
   const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty)
@@ -55,24 +55,24 @@ const Question = () => {
   // TODO: handle when user choose answer
   const handleAnswer = (e) => {
     const question = results[questionIndex]
-    const isCorrect = question.correct_answer.includes(e.target.textContent)
-    const isIncorrect = question.incorrect_answers.includes(e.target.textContent)
-    const isNotAnswerd = results.length - (incorrectAnswer + correctAnswer)
+    const decodeCorrectAnswer = decode(question.correct_answer)
+    const decodeIncorrectAnswer = question.incorrect_answers.map((incorrectAnswer) => decode(incorrectAnswer))
 
-    if (question) {
-      if (isIncorrect) dispatch(setIncorrectAnswer(incorrectAnswer + 1))
-      if (isCorrect) dispatch(setCorrectAnswer(correctAnswer + 1))
-      if (questionIndex + 1 >= results?.length) setHasNavigatedResult(true)
-    }
+    const isCorrect = decodeCorrectAnswer.includes(e.target.textContent)
+    const isIncorrect = decodeIncorrectAnswer.includes(e.target.textContent)
+    const isNotAnswerd = results.length - (incorrectAnswer + correctAnswer) - 1
 
-    setNotAnswerd(isNotAnswerd - 1)
-    setQuestionIndex(questionIndex + 1)
+    if (isCorrect) dispatch(setCorrectAnswer(correctAnswer + 1))
+    if (isIncorrect) dispatch(setIncorrectAnswer(incorrectAnswer + 1))
+    if (!isCorrect || !isIncorrect) setNotAnswerd(isNotAnswerd)
+    if (isCorrect || isIncorrect) setQuestionIndex((prevIndex) => prevIndex + 1)
+    if (questionIndex + 1 >= results?.length) setHasNavigatedResult(true)
   }
 
   if (!loading && !results?.length) return <Navigate to="/resume-question" replace={true} />
   if (hasNavigatedResult) return <Navigate to="/result" replace={true} />
 
-  if (loading) return <Loader height={40} width={40} loaderColor="#4B56D2" />
+  if (loading) return <Loader height={60} width={60} loaderColor="#4B56D2" />
   if (error) return <Alert message={error} type="error" />
 
   return (

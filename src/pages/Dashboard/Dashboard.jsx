@@ -1,6 +1,6 @@
 import { useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { setQuestionCategory, setQuestionDifficulty, setAmountOfQuestion } from '../../app/question/questionSlice'
 
@@ -47,7 +47,7 @@ const Dashboard = () => {
     navigate('/question', { replace: true })
   }
 
-  if (loading) return <Loader height={40} width={40} loaderColor="#4B56D2" />
+  if (loading) return <Loader height={60} width={60} loaderColor="#4B56D2" />
   if (error) return <Alert message={error} type="error" />
 
   return (

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-
 import { decode } from 'html-entities'
+
 import { generateRandom } from '../../libs/generateRandom'
 import { SectionContainer } from '../../layouts'
 import { Button, Timer } from '../../components'
@@ -15,10 +15,10 @@ const ResumeQuestion = () => {
 
   const [options, setOptions] = useState([])
   const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
+  const [notAnswerd, setNotAnswerd] = useState(parseInt(storeNotAnswerd, 10) || 0)
   const [questionIndex, setQuestionIndex] = useState(parseInt(storeQuestionIndex, 10) || 0)
   const [correctAnswer, setCorrectAnswer] = useState(parseInt(storeCorrectAnswer, 10) || 0)
   const [incorrectAnswer, setIncorrectAnswer] = useState(parseInt(storeIncorrectAnswer, 10) || 0)
-  const [notAnswerd, setNotAnswerd] = useState(parseInt(storeNotAnswerd, 10) || 0)
 
   // TODO: store questionIndex, correctAnswer & incorrectAnswer to localstorage
   useEffect(() => {
@@ -41,22 +41,24 @@ const ResumeQuestion = () => {
   }
 
   useEffect(() => {
-    if (storeQuestions && storeQuestions?.length > 0) handleOptions()
+    if (storeQuestions && storeQuestions?.length) handleOptions()
   }, [questionIndex])
 
   // TODO: handle when user choose answer
   const handleAnswer = (e) => {
     const question = storeQuestions[questionIndex]
-    const isCorrect = question.incorrect_answers.includes(e.target.textContent)
-    const isIncorrect = question.correct_answer.includes(e.target.textContent)
-    const isNotAnswerd = storeQuestions.length - (incorrectAnswer + correctAnswer)
+    const decodeCorrectAnswer = decode(question.correct_answer)
+    const decodeIncorrectAnswer = question.incorrect_answers.map((incorrectAnswer) => decode(incorrectAnswer))
+
+    const isCorrect = decodeCorrectAnswer.includes(e.target.textContent)
+    const isIncorrect = decodeIncorrectAnswer.includes(e.target.textContent)
+    const isNotAnswerd = storeQuestions.length - (incorrectAnswer + correctAnswer) - 1
 
     if (isCorrect) setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1)
     if (isIncorrect) setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
+    if (!isCorrect || !isIncorrect) setNotAnswerd(isNotAnswerd)
+    if (isCorrect || isIncorrect) setQuestionIndex((prevIndex) => prevIndex + 1)
     if (questionIndex + 1 >= storeQuestions?.length) setHasNavigatedResult(true)
-
-    setNotAnswerd(isNotAnswerd - 1)
-    setQuestionIndex(questionIndex + 1)
   }
 
   if (!storeQuestions) return <Navigate to="/" replace={true} />
