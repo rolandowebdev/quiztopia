@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { Alert, Button, Loader, Timer } from '../../components'
 import { SectionContainer } from '../../layouts'
-import { generateRandom } from '../../libs/generateRandom'
 import { generateApiUrl } from '../../libs/generateApiUrl'
+import { generateRandom } from '../../libs/generateRandom'
+import { Alert, Button, Loader, Timer } from '../../components'
 
 import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questionSlice'
 import { useAxios } from '../../hooks'

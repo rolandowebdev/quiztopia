@@ -18,9 +18,8 @@ const SignUp = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const { signup } = useAuth() // get from UserAuth context
+  const { signup } = useAuth()
 
-  // clear input field function
   const clearInputAndSetError = (errorMessage) => {
     emailRef.current.value = ''
     passwordRef.current.value = ''

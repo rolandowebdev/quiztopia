@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
 
+import { SectionContainer } from '../../layouts'
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
 import { Button, Input, NavigateLink, Loader, Alert } from '../../components'
-import { SectionContainer } from '../../layouts'
 
 const ForgotPassword = () => {
   const [loading, setLoading] = useState(false)
@@ -19,9 +19,7 @@ const ForgotPassword = () => {
       await resetPassword(emailRef.current.value)
       setMessage('Sucessfully!, Now you can check your email for reset password!')
     } catch (err) {
-      if (err.code === 'auth/user-not-found') {
-        return setError('User not found!')
-      }
+      if (err.code === 'auth/user-not-found') return setError('User not found!')
       setError('Failed to reset password!')
     } finally {
       emailRef.current.value = ''

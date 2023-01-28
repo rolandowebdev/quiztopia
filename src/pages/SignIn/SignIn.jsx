@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
 import { SectionContainer } from '../../layouts'
+import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
 import { Input, Button, NavigateLink, Loader, Alert, Password } from '../../components'
 
 const ERROR_CODE = {
@@ -21,7 +21,6 @@ const SignIn = () => {
   const navigate = useNavigate()
   const { signin } = useAuth()
 
-  // clear input field function
   const clearInputAndSetError = (errorMessage) => {
     emailRef.current.value = ''
     passwordRef.current.value = ''

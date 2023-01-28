@@ -2,25 +2,21 @@ import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { setQuestionCategory, setQuestionDifficulty, setAmountOfQuestion } from '../../app/question/questionSlice'
-
-import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
-import { useAxios } from '../../hooks'
-
-import { Button, Select, Input, Loader, Alert } from '../../components'
 import { SectionContainer } from '../../layouts'
-import { difficultyOptions } from '../../data/menu'
+import { Button, Select, Input } from '../../components'
+import { difficultyOptions, categoryOptions } from '../../data/menu'
+import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
+
+import { setQuestionCategory, setQuestionDifficulty, setAmountOfQuestion } from '../../app/question/questionSlice'
 
 const Dashboard = () => {
   const categoryRef = useRef(null)
   const difficultyRef = useRef(null)
   const amountQuestionRef = useRef(null)
 
-  const { signout } = useAuth()
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  const { response, error, loading } = useAxios({ url: '/api_category.php' })
+  const { signout } = useAuth()
 
   const handleSignOut = async () => {
     try {
@@ -47,14 +43,11 @@ const Dashboard = () => {
     navigate('/question', { replace: true })
   }
 
-  if (loading) return <Loader height={60} width={60} loaderColor="#4B56D2" />
-  if (error) return <Alert message={error} type="error" />
-
   return (
     <SectionContainer title>
       <p className="text-lg text-center">Select menu below before playing</p>
       <form onSubmit={handleQuestion} className="flex flex-col w-full gap-4">
-        <Select id="category" options={response?.trivia_categories?.slice(0, 10)} label="category" ref={categoryRef} />
+        <Select id="category" options={categoryOptions.slice(0, 10)} label="category" ref={categoryRef} />
         <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
         <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={30} min={1} />
         <div className="flex items-center gap-2">

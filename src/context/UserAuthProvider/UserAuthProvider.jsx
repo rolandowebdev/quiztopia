@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, createContext } from 'react'
+import { useState, useEffect, useContext, createContext, useCallback, useMemo } from 'react'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,15 +9,15 @@ import { auth } from '../../libs/firebaseConfig'
 
 const AuthContext = createContext()
 
-export const useAuth = () => useContext(AuthContext) // for use context
+export const useAuth = () => useContext(AuthContext)
 
 const UserAuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState([])
 
-  const signup = (email, password) => createUserWithEmailAndPassword(auth, email, password)
-  const signin = (email, password) => signInWithEmailAndPassword(auth, email, password)
-  const signout = () => signOut(auth)
-  const resetPassword = (email) => sendPasswordResetEmail(auth, email)
+  const signup = useCallback((email, password) => createUserWithEmailAndPassword(auth, email, password), [])
+  const signin = useCallback((email, password) => signInWithEmailAndPassword(auth, email, password), [])
+  const resetPassword = useCallback((email) => sendPasswordResetEmail(auth, email), [])
+  const signout = useCallback(() => signOut(auth), [])
 
   // get data user from firebase
   useEffect(() => {
@@ -28,13 +28,16 @@ const UserAuthProvider = ({ children }) => {
     return () => unsubscribe()
   }, [])
 
-  const value = {
-    currentUser,
-    signup,
-    signin,
-    signout,
-    resetPassword,
-  }
+  const value = useMemo(
+    () => ({
+      currentUser,
+      signup,
+      signin,
+      signout,
+      resetPassword,
+    }),
+    [currentUser, signup, signin, signout, resetPassword]
+  )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
