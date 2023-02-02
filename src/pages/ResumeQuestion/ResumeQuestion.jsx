@@ -6,7 +6,7 @@ import { generateRandom } from '../../libs/generateRandom'
 import { SectionContainer } from '../../layouts'
 import { Button, Timer } from '../../components'
 
-const ResumeQuestion = () => {
+export const ResumeQuestion = () => {
   const storeQuestions = JSON.parse(localStorage.getItem('questions'))
   const storeQuestionIndex = JSON.parse(localStorage.getItem('questionIndex'))
   const storeCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'))
@@ -89,5 +89,3 @@ const ResumeQuestion = () => {
     </SectionContainer>
   )
 }
-
-export default ResumeQuestion

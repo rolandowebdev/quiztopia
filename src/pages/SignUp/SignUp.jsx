@@ -9,7 +9,7 @@ const ERROR_CODE = {
   WEAK_PASSWORD: 'auth/weak-password',
 }
 
-const SignUp = () => {
+export const SignUp = () => {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const passwordConfirmRef = useRef(null)
@@ -72,5 +72,3 @@ const SignUp = () => {
     </SectionContainer>
   )
 }
-
-export default SignUp

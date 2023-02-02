@@ -1,1 +1,1 @@
-export { default as UserAuthProvider } from './UserAuthProvider/UserAuthProvider'
+export * from './UserAuthProvider/UserAuthProvider'

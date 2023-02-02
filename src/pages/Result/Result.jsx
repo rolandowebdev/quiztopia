@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-import Score from './Score'
+import { Score } from './Score'
 import { Button } from '../../components'
 import { SectionContainer } from '../../layouts'
 import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questionSlice'
 
-const Result = () => {
+export const Result = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -39,5 +39,3 @@ const Result = () => {
     </SectionContainer>
   )
 }
-
-export default Result

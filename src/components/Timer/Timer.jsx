@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { convertNumberToTimer } from '../../libs/convertNumberToTimer'
 
-const Timer = ({ time }) => {
+export const Timer = ({ time }) => {
   const [timer, setTimer] = useState(time)
   const navigate = useNavigate()
 
@@ -19,5 +19,3 @@ const Timer = ({ time }) => {
 
   return <h1 className="mt-2 text-2xl font-bold text-primary">{convertNumberToTimer(timer)}</h1>
 }
-
-export default Timer

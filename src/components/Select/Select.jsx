@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 
-const Select = forwardRef(({ id, label, options }, ref) => (
+export const Select = forwardRef(({ id, label, options }, ref) => (
   <label htmlFor={id}>
     <span className="block mb-[6px] capitalize">{label}</span>
     <select
@@ -17,5 +17,3 @@ const Select = forwardRef(({ id, label, options }, ref) => (
     </select>
   </label>
 ))
-
-export default Select

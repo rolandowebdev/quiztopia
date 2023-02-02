@@ -11,7 +11,7 @@ const AuthContext = createContext()
 
 export const useAuth = () => useContext(AuthContext)
 
-const UserAuthProvider = ({ children }) => {
+export const UserAuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState([])
 
   const signup = useCallback((email, password) => createUserWithEmailAndPassword(auth, email, password), [])
@@ -41,5 +41,3 @@ const UserAuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
-
-export default UserAuthProvider

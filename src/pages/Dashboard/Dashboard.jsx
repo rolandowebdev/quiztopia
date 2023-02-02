@@ -9,7 +9,7 @@ import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
 
 import { setQuestionCategory, setQuestionDifficulty, setAmountOfQuestion } from '../../app/question/questionSlice'
 
-const Dashboard = () => {
+export const Dashboard = () => {
   const categoryRef = useRef(null)
   const difficultyRef = useRef(null)
   const amountQuestionRef = useRef(null)
@@ -47,7 +47,7 @@ const Dashboard = () => {
     <SectionContainer title>
       <p className="text-lg text-center">Select menu below before playing</p>
       <form onSubmit={handleQuestion} className="flex flex-col w-full gap-4">
-        <Select id="category" options={categoryOptions.slice(0, 10)} label="category" ref={categoryRef} />
+        <Select id="category" options={categoryOptions} label="category" ref={categoryRef} />
         <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
         <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={30} min={1} />
         <div className="flex items-center gap-2">
@@ -67,5 +67,3 @@ const Dashboard = () => {
     </SectionContainer>
   )
 }
-
-export default Dashboard

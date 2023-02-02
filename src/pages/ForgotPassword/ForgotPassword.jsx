@@ -4,7 +4,7 @@ import { SectionContainer } from '../../layouts'
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
 import { Button, Input, NavigateLink, Loader, Alert } from '../../components'
 
-const ForgotPassword = () => {
+export const ForgotPassword = () => {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
@@ -41,5 +41,3 @@ const ForgotPassword = () => {
     </SectionContainer>
   )
 }
-
-export default ForgotPassword

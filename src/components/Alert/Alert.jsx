@@ -1,4 +1,4 @@
-const Alert = ({ message, type }) => (
+export const Alert = ({ message, type }) => (
   <h2
     className={`${
       type === 'error' ? 'bg-red-500' : 'bg-green-500'
@@ -7,5 +7,3 @@ const Alert = ({ message, type }) => (
     {message}
   </h2>
 )
-
-export default Alert

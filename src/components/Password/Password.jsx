@@ -1,7 +1,7 @@
 import { forwardRef, useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 
-const Password = forwardRef(({ label, id }, ref) => {
+export const Password = forwardRef(({ label, id }, ref) => {
   const [showPassword, setShowPassword] = useState(false)
   return (
     <label htmlFor={id}>
@@ -25,5 +25,3 @@ const Password = forwardRef(({ label, id }, ref) => {
     </label>
   )
 })
-
-export default Password

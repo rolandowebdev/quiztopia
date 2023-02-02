@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { SectionContainer } from '../../layouts'
 import { Button } from '../../components'
 
-const NotFound = () => {
+export const NotFound = () => {
   const navigate = useNavigate()
   const handleBackToDashboard = () => navigate('/')
   return (
@@ -16,5 +16,3 @@ const NotFound = () => {
     </SectionContainer>
   )
 }
-
-export default NotFound

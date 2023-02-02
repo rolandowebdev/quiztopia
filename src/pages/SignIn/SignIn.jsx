@@ -11,7 +11,7 @@ const ERROR_CODE = {
   TOO_MANY_REQUEST: 'auth/too-many-requests',
 }
 
-const SignIn = () => {
+export const SignIn = () => {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
 
@@ -68,5 +68,3 @@ const SignIn = () => {
     </SectionContainer>
   )
 }
-
-export default SignIn

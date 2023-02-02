@@ -11,7 +11,7 @@ import { Alert, Button, Loader, Timer } from '../../components'
 import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questionSlice'
 import { useAxios } from '../../hooks'
 
-const Question = () => {
+export const Question = () => {
   const { questionCategory, questionDifficulty, amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector(
     (state) => state.question
   )
@@ -100,5 +100,3 @@ const Question = () => {
     </SectionContainer>
   )
 }
-
-export default Question

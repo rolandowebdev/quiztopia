@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 
-const Input = forwardRef(({ label, id, type, placeholder, ...rest }, ref) => (
+export const Input = forwardRef(({ label, id, type, placeholder, ...rest }, ref) => (
   <label htmlFor={id}>
     <span className="block mb-[6px] capitalize">{label}</span>
     <div className="relative">
@@ -16,5 +16,3 @@ const Input = forwardRef(({ label, id, type, placeholder, ...rest }, ref) => (
     </div>
   </label>
 ))
-
-export default Input

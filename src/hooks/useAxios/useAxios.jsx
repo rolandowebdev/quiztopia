@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL // base url
 
-const useAxios = ({ url }) => {
+export const useAxios = ({ url }) => {
   const [response, setResponse] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -21,5 +21,3 @@ const useAxios = ({ url }) => {
 
   return { response, loading, error }
 }
-
-export default useAxios

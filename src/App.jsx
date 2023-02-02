@@ -4,7 +4,7 @@ import { SignUp, SignIn, Dashboard, ForgotPassword, Question, Result, ResumeQues
 import { PageContainer } from './layouts'
 import { PrivateRoutes } from './routes'
 
-const App = () => (
+export const App = () => (
   <PageContainer>
     <Routes>
       <Route path="*" element={<NotFound />} />
@@ -25,4 +25,3 @@ const App = () => (
     </Routes>
   </PageContainer>
 )
-export default App

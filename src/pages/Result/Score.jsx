@@ -1,4 +1,4 @@
-const Score = ({ correctAnswer, amountOfQuestion, incorrectAnswer, notAnswerd }) => (
+export const Score = ({ correctAnswer, amountOfQuestion, incorrectAnswer, notAnswerd }) => (
   <div className="flex flex-wrap items-center justify-center gap-3 text-5xl text-gray-500">
     <div className="flex flex-1 min-w-[160px] flex-col p-3 text-center border border-gray-500 rounded-lg">
       <p className="text-lg">Correct answer</p>
@@ -23,5 +23,3 @@ const Score = ({ correctAnswer, amountOfQuestion, incorrectAnswer, notAnswerd })
     </div>
   </div>
 )
-
-export default Score
