@@ -10,55 +10,66 @@ export const ResumeQuestion = () => {
   const storeQuestions = JSON.parse(localStorage.getItem('questions'))
   const storeQuestionIndex = JSON.parse(localStorage.getItem('questionIndex'))
   const storeCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'))
-  const storeIncorrectAnswer = JSON.parse(localStorage.getItem('incorrectAnswer'))
-  const storeNotAnswerd = JSON.parse(localStorage.getItem('notAnswerd'))
+  const storeIncorrectAnswers = JSON.parse(localStorage.getItem('incorrectAnswers'))
+  const storeNotAnswer = JSON.parse(localStorage.getItem('notAnswer'))
 
-  const [options, setOptions] = useState([])
+  const [randomAnswers, setRandomAnswers] = useState([])
   const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
-  const [notAnswerd, setNotAnswerd] = useState(parseInt(storeNotAnswerd, 10) || 0)
+  const [notAnswer, setNotAnswer] = useState(parseInt(storeNotAnswer, 10) || 0)
   const [questionIndex, setQuestionIndex] = useState(parseInt(storeQuestionIndex, 10) || 0)
   const [correctAnswer, setCorrectAnswer] = useState(parseInt(storeCorrectAnswer, 10) || 0)
-  const [incorrectAnswer, setIncorrectAnswer] = useState(parseInt(storeIncorrectAnswer, 10) || 0)
+  const [incorrectAnswers, setIncorrectAnswers] = useState(parseInt(storeIncorrectAnswers, 10) || 0)
 
-  // TODO: store questionIndex, correctAnswer & incorrectAnswer to localstorage
   useEffect(() => {
-    if (storeQuestions?.length) {
+    if (storeQuestions.length) {
       localStorage.setItem('questionIndex', JSON.stringify(questionIndex))
       localStorage.setItem('correctAnswer', JSON.stringify(correctAnswer))
-      localStorage.setItem('incorrectAnswer', JSON.stringify(incorrectAnswer))
-      localStorage.setItem('notAnswerd', JSON.stringify(notAnswerd))
+      localStorage.setItem('incorrectAnswers', JSON.stringify(incorrectAnswers))
+      localStorage.setItem('notAnswer', JSON.stringify(notAnswer))
     }
-  }, [questionIndex, correctAnswer, incorrectAnswer, notAnswerd])
+  }, [questionIndex, correctAnswer, incorrectAnswers, notAnswer])
 
-  // TODO: make random correct answer each user chooses an answer
-  const handleOptions = () => {
+  const handleRandomAnswers = () => {
     const question = storeQuestions[questionIndex]
-    if (question && question.incorrect_answers) {
-      const answers = [...question.incorrect_answers]
-      answers.splice(generateRandom(question.incorrect_answers.length), 0, question.correct_answer)
-      setOptions(answers)
-    }
+    const answers = [...question.incorrect_answers]
+    answers.splice(generateRandom(question.incorrect_answers.length), 0, question.correct_answer)
+    setRandomAnswers(answers)
   }
 
   useEffect(() => {
-    if (storeQuestions && storeQuestions?.length) handleOptions()
+    if (storeQuestions?.length) handleRandomAnswers()
   }, [questionIndex])
 
-  // TODO: handle when user choose answer
-  const handleAnswer = (e) => {
+  const decodeAnswers = () => {
     const question = storeQuestions[questionIndex]
     const decodeCorrectAnswer = decode(question.correct_answer)
     const decodeIncorrectAnswer = question.incorrect_answers.map((incorrectAnswer) => decode(incorrectAnswer))
+    return { decodeCorrectAnswer, decodeIncorrectAnswer }
+  }
 
-    const isCorrect = decodeCorrectAnswer.includes(e.target.textContent)
-    const isIncorrect = decodeIncorrectAnswer.includes(e.target.textContent)
-    const isNotAnswerd = storeQuestions.length - (incorrectAnswer + correctAnswer) - 1
+  const checkAnswer = (decodeCorrectAnswer, decodeIncorrectAnswer, answer) => {
+    const isCorrect = decodeCorrectAnswer.includes(answer)
+    const isIncorrect = decodeIncorrectAnswer.includes(answer)
+    return { isCorrect, isIncorrect }
+  }
 
-    if (isCorrect) setCorrectAnswer((prevCorrectAnswer) => prevCorrectAnswer + 1)
-    if (isIncorrect) setIncorrectAnswer((prevIncorrectAnswer) => prevIncorrectAnswer + 1)
-    if (!isCorrect || !isIncorrect) setNotAnswerd(isNotAnswerd)
-    if (isCorrect || isIncorrect) setQuestionIndex((prevIndex) => prevIndex + 1)
-    if (questionIndex + 1 >= storeQuestions?.length) setHasNavigatedResult(true)
+  const updateAnswerCount = (isCorrect, isIncorrect) => {
+    if (isCorrect) setCorrectAnswer(correctAnswer + 1)
+    if (isIncorrect) setIncorrectAnswers(incorrectAnswers + 1)
+    if (!isCorrect || !isIncorrect) setNotAnswer(storeQuestions.length - (incorrectAnswers + correctAnswer) - 1)
+  }
+
+  const moveNextQuestion = () => {
+    if (questionIndex + 1 >= storeQuestions.length) setHasNavigatedResult(true)
+    else setQuestionIndex(questionIndex + 1)
+  }
+
+  const handleAnswers = (e) => {
+    const answer = e.target.textContent
+    const { decodeCorrectAnswer, decodeIncorrectAnswer } = decodeAnswers()
+    const { isCorrect, isIncorrect } = checkAnswer(decodeCorrectAnswer, decodeIncorrectAnswer, answer)
+    updateAnswerCount(isCorrect, isIncorrect)
+    moveNextQuestion(questionIndex, storeQuestions)
   }
 
   if (!storeQuestions) return <Navigate to="/" replace={true} />
@@ -69,20 +80,20 @@ export const ResumeQuestion = () => {
       <h2 className="text-3xl font-bold text-primary">Question {questionIndex + 1}</h2>
       <p className="my-3 text-lg">{decode(storeQuestions[questionIndex]?.question)}</p>
       <div className="flex flex-col justify-center w-full gap-4">
-        {options.map((option) => (
-          <Button key={option} type="button" onClick={handleAnswer} value={decode(option)}>
-            {decode(option)}
+        {randomAnswers.map((randomAnswer) => (
+          <Button key={randomAnswer} type="button" onClick={handleAnswers} value={decode(randomAnswer)}>
+            {decode(randomAnswer)}
           </Button>
         ))}
       </div>
       <div className="flex items-center justify-between w-full">
         <p className="text-xl">
           Correct: <span className="font-bold text-green-500">{correctAnswer}</span> /
-          <span className="ml-1 text-gray-500">{storeQuestions?.length}</span>
+          <span className="ml-1 text-gray-500">{storeQuestions.length}</span>
         </p>
         <p className="text-xl">
-          Incorrect: <span className="font-bold text-red-500">{incorrectAnswer}</span> /
-          <span className="ml-1 text-gray-500">{storeQuestions?.length}</span>
+          Incorrect: <span className="font-bold text-red-500">{incorrectAnswers}</span> /
+          <span className="ml-1 text-gray-500">{storeQuestions.length}</span>
         </p>
       </div>
       <Timer time={storeQuestions.length * 30} />

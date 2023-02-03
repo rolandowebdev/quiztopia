@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Score } from './Score'
 import { Button } from '../../components'
 import { SectionContainer } from '../../layouts'
-import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questionSlice'
+import { setCorrectAnswer, setIncorrectAnswers } from '../../app/question/questionSlice'
 
 export const Result = () => {
   const navigate = useNavigate()
@@ -12,13 +12,13 @@ export const Result = () => {
 
   const storeQuestionAmount = JSON.parse(localStorage.getItem('questions'))
   const storeCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'))
-  const storeIncorrectAnswer = JSON.parse(localStorage.getItem('incorrectAnswer'))
-  const storeNotAnswerd = JSON.parse(localStorage.getItem('notAnswerd'))
+  const storeIncorrectAnswers = JSON.parse(localStorage.getItem('incorrectAnswers'))
+  const storeNotAnswer = JSON.parse(localStorage.getItem('notAnswer'))
 
   const handleBackToDashboard = () => {
     localStorage.clear()
     dispatch(setCorrectAnswer(0))
-    dispatch(setIncorrectAnswer(0))
+    dispatch(setIncorrectAnswers(0))
     navigate('/', { replace: true })
   }
 
@@ -29,8 +29,8 @@ export const Result = () => {
         <Score
           amountOfQuestion={storeQuestionAmount.length}
           correctAnswer={storeCorrectAnswer}
-          incorrectAnswer={storeIncorrectAnswer}
-          notAnswerd={storeNotAnswerd}
+          incorrectAnswers={storeIncorrectAnswers}
+          notAnswer={storeNotAnswer}
         />
       </div>
       <Button type="button" onClick={handleBackToDashboard} value="Back to Dashboard">

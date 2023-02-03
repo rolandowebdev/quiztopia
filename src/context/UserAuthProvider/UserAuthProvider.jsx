@@ -16,10 +16,9 @@ export const UserAuthProvider = ({ children }) => {
 
   const signup = useCallback((email, password) => createUserWithEmailAndPassword(auth, email, password), [])
   const signin = useCallback((email, password) => signInWithEmailAndPassword(auth, email, password), [])
-  const resetPassword = useCallback((email) => sendPasswordResetEmail(auth, email), [])
   const signout = useCallback(() => signOut(auth), [])
+  const resetPassword = useCallback((email) => sendPasswordResetEmail(auth, email), [])
 
-  // get data user from firebase
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user) setCurrentUser(null)

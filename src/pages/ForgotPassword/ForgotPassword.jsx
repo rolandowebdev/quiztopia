@@ -18,8 +18,8 @@ export const ForgotPassword = () => {
       setLoading(true)
       await resetPassword(emailRef.current.value)
       setMessage('Sucessfully!, Now you can check your email for reset password!')
-    } catch (err) {
-      if (err.code === 'auth/user-not-found') return setError('User not found!')
+    } catch (error) {
+      if (error.code === 'auth/user-not-found') return setError('User not found!')
       setError('Failed to reset password!')
     } finally {
       emailRef.current.value = ''

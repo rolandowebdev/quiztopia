@@ -39,8 +39,8 @@ export const SignUp = () => {
       await signup(emailRef.current.value, passwordRef.current.value)
       setMessage('Successfully created account!')
       clearInputAndSetError()
-    } catch (err) {
-      switch (err.code) {
+    } catch (error) {
+      switch (error.code) {
         case ERROR_CODE.EMAIL_ALREADY_IN_USE:
           clearInputAndSetError('Email already in use!')
           break

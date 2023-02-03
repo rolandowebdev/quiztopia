@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-axios.defaults.baseURL = process.env.REACT_APP_BASE_URL // base url
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 
 export const useAxios = ({ url }) => {
   const [response, setResponse] = useState(null)
@@ -9,12 +9,15 @@ export const useAxios = ({ url }) => {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const fetchData = () => {
-      axios
-        .get(url)
-        .then((res) => setResponse(res.data))
-        .catch((err) => setError(err))
-        .finally(() => setLoading(false))
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(url)
+        setResponse(res.data)
+      } catch (error) {
+        setError(error)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchData()
   }, [url])

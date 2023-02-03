@@ -28,7 +28,7 @@ export const Dashboard = () => {
     }
   }
 
-  const handleQuestion = (e) => {
+  const handleQuestionCategory = (e) => {
     e.preventDefault()
 
     if (categoryRef.current.value !== 'any category') {
@@ -46,7 +46,7 @@ export const Dashboard = () => {
   return (
     <SectionContainer title>
       <p className="text-lg text-center">Select menu below before playing</p>
-      <form onSubmit={handleQuestion} className="flex flex-col w-full gap-4">
+      <form onSubmit={handleQuestionCategory} className="flex flex-col w-full gap-4">
         <Select id="category" options={categoryOptions} label="category" ref={categoryRef} />
         <Select id="difficulty" options={difficultyOptions} label="difficulty" ref={difficultyRef} />
         <Input id="amount" label="amount of question" type="number" ref={amountQuestionRef} max={30} min={1} />

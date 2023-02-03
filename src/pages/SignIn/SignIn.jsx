@@ -33,8 +33,8 @@ export const SignIn = () => {
       setLoading(true)
       await signin(emailRef.current.value, passwordRef.current.value)
       navigate('/', { replace: true })
-    } catch (err) {
-      switch (err.code) {
+    } catch (error) {
+      switch (error.code) {
         case ERROR_CODE.WRONG_PASSWORD:
           clearInputAndSetError('Wrong password!')
           break

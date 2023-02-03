@@ -8,65 +8,75 @@ import { generateApiUrl } from '../../libs/generateApiUrl'
 import { generateRandom } from '../../libs/generateRandom'
 import { Alert, Button, Loader, Timer } from '../../components'
 
-import { setCorrectAnswer, setIncorrectAnswer } from '../../app/question/questionSlice'
+import { setCorrectAnswer, setIncorrectAnswers } from '../../app/question/questionSlice'
 import { useAxios } from '../../hooks'
 
 export const Question = () => {
-  const { questionCategory, questionDifficulty, amountOfQuestion, correctAnswer, incorrectAnswer } = useSelector(
+  const { questionCategory, questionDifficulty, amountOfQuestion, correctAnswer, incorrectAnswers } = useSelector(
     (state) => state.question
   )
 
   const dispatch = useDispatch()
-  const [options, setOptions] = useState([])
+  const [randomAnswers, setRandomAnswers] = useState([])
   const [questionIndex, setQuestionIndex] = useState(0)
   const [hasNavigatedResult, setHasNavigatedResult] = useState(false)
-  const [notAnswerd, setNotAnswerd] = useState(parseInt(amountOfQuestion, 10) || 0)
+  const [notAnswer, setNotAnswer] = useState(parseInt(amountOfQuestion, 10) || 0)
 
-  // generated api
   const apiUrl = generateApiUrl(amountOfQuestion, questionCategory, questionDifficulty)
   const { response, loading, error } = useAxios({ url: apiUrl })
-  const results = response ? response.results : []
+  const results = response ? response?.results : []
 
-  // TODO: store questions data into localstorage
   useEffect(() => {
-    if (results?.length) {
+    if (results.length) {
       localStorage.setItem('questionIndex', JSON.stringify(questionIndex))
       localStorage.setItem('questions', JSON.stringify(results))
-      localStorage.setItem('incorrectAnswer', JSON.stringify(incorrectAnswer))
+      localStorage.setItem('incorrectAnswers', JSON.stringify(incorrectAnswers))
       localStorage.setItem('correctAnswer', JSON.stringify(correctAnswer))
-      localStorage.setItem('notAnswerd', JSON.stringify(notAnswerd))
+      localStorage.setItem('notAnswer', JSON.stringify(notAnswer))
     }
-  }, [results, questionIndex, incorrectAnswer, correctAnswer, notAnswerd])
+  }, [results, questionIndex, incorrectAnswers, correctAnswer, notAnswer])
 
-  // TODO: make random correct answer each user chooses an answer
-  const handleOptions = () => {
+  const handleRandomAnswers = () => {
     const question = results[questionIndex]
-    if (question && question.incorrect_answers) {
-      const answers = [...question.incorrect_answers]
-      answers.splice(generateRandom(question.incorrect_answers.length), 0, question.correct_answer)
-      setOptions(answers)
-    }
+    const answers = [...question.incorrect_answers]
+    answers.splice(generateRandom(question.incorrect_answers.length), 0, question.correct_answer)
+    setRandomAnswers(answers)
   }
 
   useEffect(() => {
-    if (!loading && results?.length) handleOptions()
+    if (!loading && results?.length) handleRandomAnswers()
   }, [loading, results, questionIndex])
 
-  // TODO: handle when user choose answer
-  const handleAnswer = (e) => {
+  const decodeAnswers = () => {
     const question = results[questionIndex]
     const decodeCorrectAnswer = decode(question.correct_answer)
     const decodeIncorrectAnswer = question.incorrect_answers.map((incorrectAnswer) => decode(incorrectAnswer))
+    return { decodeCorrectAnswer, decodeIncorrectAnswer }
+  }
 
-    const isCorrect = decodeCorrectAnswer.includes(e.target.textContent)
-    const isIncorrect = decodeIncorrectAnswer.includes(e.target.textContent)
-    const isNotAnswerd = results.length - (incorrectAnswer + correctAnswer) - 1
+  const checkAnswer = (decodeCorrectAnswer, decodeIncorrectAnswer, answer) => {
+    const isCorrect = decodeCorrectAnswer.includes(answer)
+    const isIncorrect = decodeIncorrectAnswer.includes(answer)
+    return { isCorrect, isIncorrect }
+  }
 
+  const updateAnswerCount = (isCorrect, isIncorrect) => {
     if (isCorrect) dispatch(setCorrectAnswer(correctAnswer + 1))
-    if (isIncorrect) dispatch(setIncorrectAnswer(incorrectAnswer + 1))
-    if (!isCorrect || !isIncorrect) setNotAnswerd(isNotAnswerd)
-    if (isCorrect || isIncorrect) setQuestionIndex((prevIndex) => prevIndex + 1)
-    if (questionIndex + 1 >= results?.length) setHasNavigatedResult(true)
+    if (isIncorrect) dispatch(setIncorrectAnswers(incorrectAnswers + 1))
+    if (!isCorrect || !isIncorrect) setNotAnswer(results.length - (incorrectAnswers + correctAnswer) - 1)
+  }
+
+  const moveNextQuestion = () => {
+    if (questionIndex + 1 >= results.length) setHasNavigatedResult(true)
+    else setQuestionIndex(questionIndex + 1)
+  }
+
+  const handleAnswers = (e) => {
+    const answer = e.target.textContent
+    const { decodeCorrectAnswer, decodeIncorrectAnswer } = decodeAnswers()
+    const { isCorrect, isIncorrect } = checkAnswer(decodeCorrectAnswer, decodeIncorrectAnswer, answer)
+    updateAnswerCount(isCorrect, isIncorrect)
+    moveNextQuestion(questionIndex, results)
   }
 
   if (!loading && !results?.length) return <Navigate to="/resume-question" replace={true} />
@@ -80,20 +90,20 @@ export const Question = () => {
       <h2 className="text-4xl font-bold text-primary">Question {questionIndex + 1}</h2>
       <p className="my-3 text-lg">{decode(results[questionIndex]?.question)}</p>
       <div className="flex flex-col justify-center w-full gap-4">
-        {options.map((option) => (
-          <Button key={option} type="button" onClick={handleAnswer} value={decode(option)}>
-            {decode(option)}
+        {randomAnswers.map((randomAnswer) => (
+          <Button key={randomAnswer} type="button" onClick={handleAnswers} value={decode(randomAnswer)}>
+            {decode(randomAnswer)}
           </Button>
         ))}
       </div>
       <div className="flex items-center justify-between w-full">
         <p className="text-xl">
           Correct: <span className="font-bold text-green-500">{correctAnswer}</span> /
-          <span className="ml-1 text-gray-500">{results?.length}</span>
+          <span className="ml-1 text-gray-500">{results.length}</span>
         </p>
         <p className="text-xl">
-          Incorrect: <span className="font-bold text-red-500">{incorrectAnswer}</span> /
-          <span className="ml-1 text-gray-500">{results?.length}</span>
+          Incorrect: <span className="font-bold text-red-500">{incorrectAnswers}</span> /
+          <span className="ml-1 text-gray-500">{results.length}</span>
         </p>
       </div>
       <Timer time={results.length * 30} />
