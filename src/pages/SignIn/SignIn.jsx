@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { SectionContainer } from '../../layouts'
+import { Alert, Button, Input, Loader, NavigateLink, Password } from '../../components'
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
-import { Input, Button, NavigateLink, Loader, Alert, Password } from '../../components'
+import { SectionContainer } from '../../layouts'
 
 const ERROR_CODE = {
   WRONG_PASSWORD: 'auth/wrong-password',

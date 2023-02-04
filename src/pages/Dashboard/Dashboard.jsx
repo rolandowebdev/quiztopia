@@ -2,12 +2,12 @@ import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { SectionContainer } from '../../layouts'
-import { Button, Select, Input } from '../../components'
-import { difficultyOptions, categoryOptions } from '../../data/menu'
+import { Button, Input, Select } from '../../components'
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
+import { categoryOptions, difficultyOptions } from '../../data/menu'
+import { SectionContainer } from '../../layouts'
 
-import { setQuestionCategory, setQuestionDifficulty, setAmountOfQuestion } from '../../app/question/questionSlice'
+import { setAmountOfQuestion, setQuestionCategory, setQuestionDifficulty } from '../../app/question/questionSlice'
 
 export const Dashboard = () => {
   const categoryRef = useRef(null)

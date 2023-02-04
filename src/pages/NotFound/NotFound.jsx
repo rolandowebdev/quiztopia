@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
-import { SectionContainer } from '../../layouts'
 import { Button } from '../../components'
+import { SectionContainer } from '../../layouts'
 
 export const NotFound = () => {
   const navigate = useNavigate()

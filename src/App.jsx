@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import { SignUp, SignIn, Dashboard, ForgotPassword, Question, Result, ResumeQuestion, NotFound } from './pages'
 import { PageContainer } from './layouts'
+import { Dashboard, ForgotPassword, NotFound, Question, Result, ResumeQuestion, SignIn, SignUp } from './pages'
 import { PrivateRoutes } from './routes'
 
 export const App = () => (

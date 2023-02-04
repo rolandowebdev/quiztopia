@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 
-import { SectionContainer } from '../../layouts'
-import { Input, Button, NavigateLink, Loader, Alert, Password } from '../../components'
+import { Alert, Button, Input, Loader, NavigateLink, Password } from '../../components'
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
+import { SectionContainer } from '../../layouts'
 
 const ERROR_CODE = {
   EMAIL_ALREADY_IN_USE: 'auth/email-already-in-use',

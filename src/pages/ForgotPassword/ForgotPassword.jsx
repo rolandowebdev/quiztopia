@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react'
+import { useRef, useState } from 'react'
 
-import { SectionContainer } from '../../layouts'
+import { Alert, Button, Input, Loader, NavigateLink } from '../../components'
 import { useAuth } from '../../context/UserAuthProvider/UserAuthProvider'
-import { Button, Input, NavigateLink, Loader, Alert } from '../../components'
+import { SectionContainer } from '../../layouts'
 
 export const ForgotPassword = () => {
   const [loading, setLoading] = useState(false)

@@ -1,13 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import './assets/index.css'
 
 import { Provider } from 'react-redux'
-import { UserAuthProvider } from './context'
-import { store } from './app/store'
 import { App } from './App'
-
+import { store } from './app/store'
+import { UserAuthProvider } from './context'
 import reportWebVitals from './reportWebVitals'
-import './assets/index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

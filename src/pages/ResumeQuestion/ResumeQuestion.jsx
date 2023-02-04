@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
 import { decode } from 'html-entities'
+import { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 
-import { generateRandom } from '../../libs/generateRandom'
-import { SectionContainer } from '../../layouts'
 import { Button, Timer } from '../../components'
+import { SectionContainer } from '../../layouts'
+import { generateRandom } from '../../libs/generateRandom'
+
+const TIMER_COUNT = 30
 
 export const ResumeQuestion = () => {
   const storeQuestions = JSON.parse(localStorage.getItem('questions'))
@@ -21,7 +23,7 @@ export const ResumeQuestion = () => {
   const [incorrectAnswers, setIncorrectAnswers] = useState(parseInt(storeIncorrectAnswers, 10) || 0)
 
   useEffect(() => {
-    if (storeQuestions.length) {
+    if (storeQuestions?.length) {
       localStorage.setItem('questionIndex', JSON.stringify(questionIndex))
       localStorage.setItem('correctAnswer', JSON.stringify(correctAnswer))
       localStorage.setItem('incorrectAnswers', JSON.stringify(incorrectAnswers))
@@ -47,28 +49,28 @@ export const ResumeQuestion = () => {
     return { decodeCorrectAnswer, decodeIncorrectAnswer }
   }
 
-  const checkAnswer = (decodeCorrectAnswer, decodeIncorrectAnswer, answer) => {
+  const checkAnswer = (answer) => {
+    const { decodeCorrectAnswer, decodeIncorrectAnswer } = decodeAnswers()
     const isCorrect = decodeCorrectAnswer.includes(answer)
     const isIncorrect = decodeIncorrectAnswer.includes(answer)
     return { isCorrect, isIncorrect }
   }
 
-  const updateAnswerCount = (isCorrect, isIncorrect) => {
+  const updateAnswerCount = (answer) => {
+    const { isCorrect, isIncorrect } = checkAnswer(answer)
     if (isCorrect) setCorrectAnswer(correctAnswer + 1)
     if (isIncorrect) setIncorrectAnswers(incorrectAnswers + 1)
     if (!isCorrect || !isIncorrect) setNotAnswer(storeQuestions.length - (incorrectAnswers + correctAnswer) - 1)
   }
 
   const moveNextQuestion = () => {
-    if (questionIndex + 1 >= storeQuestions.length) setHasNavigatedResult(true)
+    if (questionIndex + 1 >= storeQuestions?.length) setHasNavigatedResult(true)
     else setQuestionIndex(questionIndex + 1)
   }
 
   const handleAnswers = (e) => {
     const answer = e.target.textContent
-    const { decodeCorrectAnswer, decodeIncorrectAnswer } = decodeAnswers()
-    const { isCorrect, isIncorrect } = checkAnswer(decodeCorrectAnswer, decodeIncorrectAnswer, answer)
-    updateAnswerCount(isCorrect, isIncorrect)
+    updateAnswerCount(answer)
     moveNextQuestion(questionIndex, storeQuestions)
   }
 
@@ -89,14 +91,14 @@ export const ResumeQuestion = () => {
       <div className="flex items-center justify-between w-full">
         <p className="text-xl">
           Correct: <span className="font-bold text-green-500">{correctAnswer}</span> /
-          <span className="ml-1 text-gray-500">{storeQuestions.length}</span>
+          <span className="ml-1 text-gray-500">{storeQuestions?.length}</span>
         </p>
         <p className="text-xl">
           Incorrect: <span className="font-bold text-red-500">{incorrectAnswers}</span> /
-          <span className="ml-1 text-gray-500">{storeQuestions.length}</span>
+          <span className="ml-1 text-gray-500">{storeQuestions?.length}</span>
         </p>
       </div>
-      <Timer time={storeQuestions.length * 30} />
+      <Timer time={storeQuestions.length * TIMER_COUNT} />
     </SectionContainer>
   )
 }
