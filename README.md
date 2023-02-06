@@ -2,11 +2,6 @@
 
 [![QuizTopia Image](public/quiztopia.png)](https://quiztopia-beta.netlify.app)
 
-## Login to QuizTopia
-
-Email : test@gmail.com
-Password : testing
-
 ## Developing
 
 Node.js `>= 16.x` setup with [yarn](https://yarnpkg.com/) is recommended.
