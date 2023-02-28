@@ -8,7 +8,7 @@ Node.js `>= 16.x` setup with [yarn](https://yarnpkg.com/) is recommended.
 
 ```bash
 # duplicate & fill environment file
-cp .env.example .env.local
+cp .env.example
 
 # install dependencies
 yarn
